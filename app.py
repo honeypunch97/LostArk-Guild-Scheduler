@@ -21,6 +21,78 @@ db = client.dblags
 
 SECRET_KEY = SECRET_DATA['SECRET_KEY']
 
+# 매주 수요일 06시 마다
+# 1. 이번 주 일정을 삭제한다.
+# 2. 다음 주 일정의 고정팟(전체), 반복일정(멤버제외)들을 temp_sch_list에 넣어준다.
+# 3. 다음 주 일정의 전체 일정을 이번 주 일정으로 넘겨준다.
+# 4. 다음 주 일정을 삭제한다.
+# 5. 다음 주 일정에 temp_sch_list의 내용을 넣어준다.
+def api_sch_rotation():
+    # DB_thisweeksch의 내용 초기화
+    db.thisweeksch.delete_many({})
+    # ('fixedparty' == 'true'이면, 그대로 temp_sch_list에 넣어두고),
+    # ('repeatsch'=='true'이면, 'member'값을 []로 초기화해서 넣어두기)
+    next_sch_list = list(db.nextweeksch.find({}, {'_id': False}))
+    temp_sch_list = []
+    for next_sch in next_sch_list:
+        if next_sch['fixedparty'] == 'true':
+            doc = {
+                'difficulty': next_sch['difficulty'],
+                'content': next_sch['content'],
+                'gate': next_sch['gate'],
+                'day': next_sch['day'],
+                'time': next_sch['time'],
+                'memo': next_sch['memo'],
+                'fixedparty': next_sch['fixedparty'],
+                'repeatsch': next_sch['repeatsch'],
+                'member': next_sch['member'],
+                'new': 'false'
+            }
+            temp_sch_list.append(doc)
+        elif next_sch['repeatsch'] == 'true':
+            doc = {
+                'difficulty': next_sch['difficulty'],
+                'content': next_sch['content'],
+                'gate': next_sch['gate'],
+                'day': next_sch['day'],
+                'time': next_sch['time'],
+                'memo': next_sch['memo'],
+                'fixedparty': next_sch['fixedparty'],
+                'repeatsch': next_sch['repeatsch'],
+                'member': [],
+                'new': 'false'
+            }
+            temp_sch_list.append(doc)
+    # DB_nextweeksch의 내용을 가져와, DB_thisweeksch에 넣어주기
+    for next_sch in next_sch_list:
+        doc = {
+            'difficulty': next_sch['difficulty'],
+            'content': next_sch['content'],
+            'gate': next_sch['gate'],
+            'day': next_sch['day'],
+            'time': next_sch['time'],
+            'memo': next_sch['memo'],
+            'fixedparty': next_sch['fixedparty'],
+            'repeatsch': next_sch['repeatsch'],
+            'member': next_sch['member'],
+            'new': 'false'
+        }
+        db.thisweeksch.insert_one(doc)
+
+        # DB_nextweeksch의 내용을 전체삭제해주기
+        db.nextweeksch.delete_many({})
+        # DB_nextweeksch에 temp_sch_list의  값을 넣어주기
+        for temp_sch in temp_sch_list:
+            db.nextweeksch.insert_one(temp_sch)
+    return 0
+
+# 매월 01일 마다
+# 1. 포인트 초기화
+# 2. 일정 참여횟수 초기화
+def api_point_rotation():
+    db.users.update_many({}, {'$set' : {'point': 0, 'joincount': 0}})
+    return 0
+
 # 로그 저장 함수
 def save_log(log_nickname, log_title, log_content):
     time = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime('%Y년 %m월 %d일 %H시 %M분 %S초')
@@ -42,13 +114,26 @@ def print_thisweek():
     try:
         payload = find_payload()
         user_info = db.users.find_one({"email": payload['email']})
-
+        day = (datetime.datetime.utcnow() + datetime.timedelta(hours=9))
+        
         # 마지막 로그인날짜가 오늘이 아니라면, 1000포인트 추가해서 저장, 마지막 로그인날짜를 오늘로 저장
-        today = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime('%Y%m%d')
+        today = day.strftime('%Y%m%d')
         if user_info['lastlogin'] != today:
             my_point = user_info['point'] + 1000
             db.users.update_one({'nickname': payload['nickname']}, {'$set': {'point': my_point}})
             db.users.update_one({'nickname': payload['nickname']}, {'$set': {'lastlogin': today}})
+        
+        # 매주 수요일 06시 일정 로테이션
+        sch_rotation = db.sys.find_one({'key': 'sch_rotation'}, {'_id': False})
+        if (day.strftime('%A') == 'Tuesday' and sch_rotation['last_rotation'] != today):
+            api_sch_rotation()
+            db.sys.update_one({'key': 'sch_rotation'}, {'$set': {'last_rotation': today}})
+            
+        # 매월 01일 포인트, 참여횟수 초기화 로테이션
+        point_rotation = db.sys.find_one({'key': 'point_rotation'}, {'_id': False})
+        if (day.strftime('%d') == '01' and point_rotation['last_rotation'] != today):
+            api_point_rotation()
+            db.sys.update_one({'key': 'point_rotation'}, {'$set': {'last_rotation': today}})
 
         return render_template('thisweeksch.html',
                                user_membership= payload['membership'],
