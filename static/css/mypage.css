@@ -1,0 +1,403 @@
+body {
+  background-color: var(--color_light_gray);
+}
+#mypage_container {
+  min-height: 100vh;
+  margin: 0 auto;
+}
+.mypage_title {
+  background-color: var(--color_dark);
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.btn_goto_mainpage,
+.btn_logout {
+  width: 100px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: ease-in-out 0.3s;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: 500;
+}
+.btn_goto_mainpage:hover,
+.btn_logout:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
+}
+.btn_goto_mainpage {
+  margin-left: 10px;
+}
+.btn_logout {
+  margin-right: 10px;
+}
+.mypage_title h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+}
+.myinfo_container {
+  margin: 0 auto;
+  width: 90%;
+  border: 2px solid var(--color_deep_dark);
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.myinfo_title {
+  background-color: var(--color_deep_dark);
+  display: flex;
+  height: 30px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 2px 2px 0 0;
+}
+.myinfo_title div {
+  width: 5%;
+  height: 75%;
+  margin: 0 10px;
+}
+.btn_change_myinfo {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.btn_change_myinfo:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
+}
+.myinfo_title h1 {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+.myinfo_row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.myinfo_item {
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  display: flex;
+  margin: 10px;
+  width: 18%;
+}
+.myinfo_key {
+  width: 25%;
+  height: 40px;
+  background-color: var(--color_dark);
+  border-radius: 1px 0 0 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.myinfo_value {
+  width: 75%;
+  height: 40px;
+  border-radius: 0 1px 1px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.myinfo_value input {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.myinfo_value select {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.locked {
+  background-color: var(--color_main_gray);
+}
+.announcement_wrap {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto 20px auto;
+}
+.announcement_container {
+  width: 49.5%;
+  border: 2px solid var(--color_deep_dark);
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+.announcement_title {
+  background-color: var(--color_deep_dark);
+  display: flex;
+  height: 30px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 2px 2px 0 0;
+}
+.announcement_title h1 {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+.announcement_title div {
+  width: 10%;
+  height: 75%;
+  margin: 0 10px;
+}
+.btn_change_announcement {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+.btn_change_announcement:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
+}
+.main_announcement_content textarea,
+.announcement_container textarea {
+  width: 100%;
+  height: 200px;
+  resize: none;
+  border-radius: 10px;
+}
+
+.grade_container {
+  margin: 0 auto;
+  width: 90%;
+  border: 2px solid var(--color_deep_dark);
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.grade_title {
+  background-color: var(--color_deep_dark);
+  display: flex;
+  height: 30px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 2px 2px 0 0;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+.grade_box {
+  margin: 0 auto;
+  width: 99%;
+  border: 2px solid var(--color_dark);
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.grade_box_title {
+  background-color: var(--color_dark);
+  display: flex;
+  height: 20px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 2px 2px 0 0;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+}
+.grade_box_content {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.user-item {
+  margin: 0 auto;
+  border: 2px solid var(--color_dark);
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  margin: 5px;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.user-item_nickname {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color_dark);
+  height: 100%;
+  padding: 0 5px;
+  color: white;
+  border-radius: 3px 0 0 3px;
+}
+.user-item_email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 5px;
+}
+.grade_upgrade_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  padding: 0 3px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  font-weight: 900;
+  border: 1px solid var(--color_dark);
+  margin-right: 3px;
+  background-color: var(--color_dark);
+  color: white;
+}
+.grade_upgrade_btn:hover {
+  background-color: white;
+  color: var(--color_dark);
+}
+.grade_downgrade_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  padding: 0 3px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  font-weight: 900;
+  border: 1px solid var(--color_dark);
+  margin-right: 5px;
+  background-color: var(--color_dark);
+  color: white;
+}
+.grade_downgrade_btn:hover {
+  background-color: white;
+  color: var(--color_dark);
+}
+.point_management_container {
+  margin: 0 auto;
+  width: 90%;
+  border: 2px solid var(--color_deep_dark);
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.point_management_title {
+  background-color: var(--color_deep_dark);
+  display: flex;
+  height: 30px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 2px 2px 0 0;
+}
+.point_management_title > h1 {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+.point_management_content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.point_management_manual {
+  width: 99%;
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  padding: 1%;
+  box-sizing: border-box;
+  margin-bottom: 1%;
+}
+.point_management_Monitor {
+  width: 99%;
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  padding: 1%;
+  box-sizing: border-box;
+  margin-bottom: 1%;
+}
+#point_management_command_box {
+  width: 99%;
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  padding: 1%;
+  box-sizing: border-box;
+  margin-bottom: 1%;
+}
+
+.log_container {
+  margin: 0 auto;
+  width: 90%;
+  border: 2px solid var(--color_deep_dark);
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.log_title {
+  background-color: var(--color_deep_dark);
+  display: flex;
+  height: 30px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  border-radius: 2px 2px 0 0;
+}
+.log_title > h1 {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+.btn_delete_log,
+.btn_print_log {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  width: 5%;
+  height: 75%;
+  margin: 0 10px;
+}
+.btn_delete_log:hover,
+.btn_print_log:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
+}
