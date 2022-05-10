@@ -14,6 +14,10 @@
     />
 
     <!--  css link-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"
+    />
     <link rel="stylesheet" href="../static/css/reset.css" />
     <link rel="stylesheet" href="../static/css/menu.css" />
     <link rel="stylesheet" href="../static/css/minigames.css" />
@@ -41,6 +45,9 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+
+    <!--    SweetAlert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
     <!--    js load-->
     <script defer src="../static/js/minigames.js"></script>
@@ -91,61 +98,72 @@
         </div>
       </section>
       <section class="content_section">
+        <div class="free_abilitystonegame_container">
+          <div class="free_abilitystonegame_titlebox">
+            어빌리티 스톤 시뮬레이터(무료)
+          </div>
+          <div class="free_abilitystonegame_contentbox">
+            <div class="free_abilitystonegame_row">
+              <div id="free_abilitystonegame_probability">75%</div>
+            </div>
+            <div class="free_abilitystonegame_row">
+              <div class="free_abilitystonegame_name">각인A</div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="free_abilitystonegame_numberofsuccess">0</div>
+              <div class="free_abilitystonegame_btn_doit">세공</div>
+            </div>
+            <div class="free_abilitystonegame_row">
+              <div class="free_abilitystonegame_name">각인B</div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="free_abilitystonegame_numberofsuccess">0</div>
+              <div class="free_abilitystonegame_btn_doit">세공</div>
+            </div>
+            <div class="free_abilitystonegame_row">
+              <div class="free_abilitystonegame_name">감소각인</div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="diamond"></div>
+              <div class="free_abilitystonegame_numberofsuccess">0</div>
+              <div class="free_abilitystonegame_btn_doit">세공</div>
+            </div>
+            <div class="free_abilitystonegame_row">
+              <div class="free_abilitystonegame_btn_done">초기화</div>
+            </div>
+          </div>
+        </div>
         <div class="abilitystonegame_container">
           <div class="abilitystonegame_titlebox">어빌리티 스톤 시뮬레이터</div>
-          <div class="abilitystonegame_contentbox">
-            <div class="btn_abilitystonegame_start"></div>
-            <div class="abilitystonegame_row">
-              <div id="abilitystonegame_probability">75%</div>
+          <div class="abilitystonegame_start_container">
+            <div class="abilitystonegame_start_announcement">
+              <p>일일 4회 제한, 참가비 2500포인트</p>
+              <p>포인트 = 각인A X 500 + 각인B X 500 - 감소각인 X 500</p>
             </div>
-            <div class="abilitystonegame_row">
-              <div class="abilitystonegame_name">각인A</div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="abilitystonegame_numberofsuccess">0</div>
-              <div class="abilitystonegame_btn_doit">세공</div>
-            </div>
-            <div class="abilitystonegame_row">
-              <div class="abilitystonegame_name">각인B</div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="abilitystonegame_numberofsuccess">0</div>
-              <div class="abilitystonegame_btn_doit">세공</div>
-            </div>
-            <div class="abilitystonegame_row">
-              <div class="abilitystonegame_name">감소각인</div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="diamond"></div>
-              <div class="abilitystonegame_numberofsuccess">0</div>
-              <div class="abilitystonegame_btn_doit">세공</div>
-            </div>
-            <div class="abilitystonegame_row">
-              <div class="abilitystonegame_btn_init">초기화</div>
-            </div>
+            <div class="abilitystonegame_start_btn">Game Start</div>
           </div>
         </div>
       </section>

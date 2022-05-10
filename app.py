@@ -84,14 +84,13 @@ def api_sch_rotation():
         # DB_nextweeksch에 temp_sch_list의  값을 넣어주기
         for temp_sch in temp_sch_list:
             db.nextweeksch.insert_one(temp_sch)
-    return 0
 
 # 매월 01일 마다
 # 1. 포인트 초기화
 # 2. 일정 참여횟수 초기화
-def api_point_rotation():
-    db.users.update_many({}, {'$set' : {'point': 0, 'joincount': 0}})
-    return 0
+# def api_point_rotation():
+#     db.users.update_many({}, {'$set' : {'point': 0, 'schjoincount': 0}})
+
 
 # 로그 저장 함수
 def save_log(log_nickname, log_title, log_content):
@@ -120,20 +119,21 @@ def print_thisweek():
         today = day.strftime('%Y%m%d')
         if user_info['lastlogin'] != today:
             my_point = user_info['point'] + 1000
-            db.users.update_one({'nickname': payload['nickname']}, {'$set': {'point': my_point}})
-            db.users.update_one({'nickname': payload['nickname']}, {'$set': {'lastlogin': today}})
+            db.users.update_one({'nickname': payload['nickname']}, {'$set': {'point': my_point, 'lastlogin': today}})
+            # 미니게임 일일횟수 초기화
+            # db.users.update_one({'nickname': payload['nickname']}, {'$set': {'abilitystonegamecount': 0}})
         
         # 매주 수요일 06시 일정 로테이션
-        sch_rotation = db.sys.find_one({'key': 'sch_rotation'}, {'_id': False})
-        if (day.strftime('%A') == 'Tuesday' and sch_rotation['last_rotation'] != today):
-            api_sch_rotation()
-            db.sys.update_one({'key': 'sch_rotation'}, {'$set': {'last_rotation': today}})
+        # sch_rotation = db.sys.find_one({'key': 'sch_rotation'}, {'_id': False})
+        # if (day.strftime('%A') == 'Tuesday' and sch_rotation['last_rotation'] != today):
+        #     api_sch_rotation()
+        #     db.sys.update_one({'key': 'sch_rotation'}, {'$set': {'last_rotation': today}})
             
         # 매월 01일 포인트, 참여횟수 초기화 로테이션
-        point_rotation = db.sys.find_one({'key': 'point_rotation'}, {'_id': False})
-        if (day.strftime('%d') == '01' and point_rotation['last_rotation'] != today):
-            api_point_rotation()
-            db.sys.update_one({'key': 'point_rotation'}, {'$set': {'last_rotation': today}})
+        # point_rotation = db.sys.find_one({'key': 'point_rotation'}, {'_id': False})
+        # if (day.strftime('%d') == '01' and point_rotation['last_rotation'] != today):
+        #     api_point_rotation()
+        #     db.sys.update_one({'key': 'point_rotation'}, {'$set': {'last_rotation': today}})
 
         return render_template('thisweeksch.html',
                                user_membership= payload['membership'],
@@ -229,7 +229,8 @@ def api_signup():
         'class6': class_receive6,
         'point': 10000,
         'lastlogin': today,
-        'joincount': 0
+        'schjoincount': 0,
+        'abilitystonegamecount': 0
     }
     db.users.insert_one(doc)
 
@@ -432,9 +433,9 @@ def api_thisweek_donesch():
         for i in sch['member']:
             user = db.users.find_one({'nickname': i['nickname']})
             point = user['point'] + add_point
-            joincount = user['joincount'] + 1
+            schjoincount = user['schjoincount'] + 1
             db.users.update_one({'nickname': i['nickname']}, {'$set': {'point': point}})
-            db.users.update_one({'nickname': i['nickname']}, {'$set': {'joincount': joincount}})
+            db.users.update_one({'nickname': i['nickname']}, {'$set': {'schjoincount': schjoincount}})
             member_list.append(i['nickname'])
 
         db.thisweeksch.delete_one({"_id": ObjectId(sch_id_receive)})
@@ -944,6 +945,38 @@ def api_print_pointranking():
         for i in range(len(all_user)):
             top_ranking_list.append({'nickname': all_user[i]['nickname'], 'point': all_user[i]['point']})
     return jsonify({'result': 'SUCCESS', 'top_ranking_list': top_ranking_list, 'mypoint': mypoint})
+    
+# 미니게임 페이지, 포인트 감소시키키 (if click 'game start btn')
+@app.route("/minigames/api_gamestart/", methods=['POST'])
+def api_gamestart():
+    try:
+        payload = find_payload()
+        user_info = db.users.find_one({'nickname': payload['nickname']})
+        decrease_point_receive = int(request.form['decrease_point_give'])
+        if user_info['abilitystonegamecount'] >= 4:
+            return jsonify({'result': 'FAIL', 'title': '게임 시작 실패', 'msg': '일일 가능 횟수를 모두 소진했습니다.'})
+        else:
+            abilitystonegamecount = user_info['abilitystonegamecount'] + 1
+            db.users.update_one({'nickname': payload['nickname']}, {'$set': {'abilitystonegamecount': abilitystonegamecount}})
+        point = user_info['point'] - decrease_point_receive - 2500
+        db.users.update_one({'nickname': payload['nickname']}, {'$set': {'point': point}})
+        return jsonify({'result': 'SUCCESS', 'title': '게임 시작 성공', 'msg': '게임 시작을 성공했습니다.'})
+    except:
+        return jsonify({'result': 'FAIL', 'title': '게임 시작 실패', 'msg': '로그인이 유효하지 않습니다.'})
+
+# 미니게임 페이지, 포인트 정산하기
+@app.route("/minigames/api_gamedone/", methods=['POST'])
+def api_gamedone():
+    # try:
+    payload = find_payload()
+    user_info = db.users.find_one({'nickname': payload['nickname']})
+    result_point_receive = int(request.form['result_point_give'])
+    point = user_info['point'] + result_point_receive + 2500
+    db.users.update_one({'nickname': payload['nickname']}, {'$set': {'point': point}})
+    return jsonify({'result': 'SUCCESS', 'title': '포인트 정산 성공', 'msg': '내 포인트는 '+str(point)+'포인트 입니다.'})
+    # except:
+    #     return jsonify({'result': 'FAIL', 'title': '포인트 정산 성공', 'msg': '로그인이 유효하지 않습니다.'})
+
 
 
 # 마이페이지 기본GET요청

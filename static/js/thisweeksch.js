@@ -371,7 +371,7 @@ function printSch() {
             ".table_schedule_content[data-id = " +
               sch_id_list[i] +
               "] > .table_schedule_content_title"
-          ).css("background-color", "var(--color_deep_dark)");
+          ).css("background-color", "var(--color_dark)");
         }
 
         //메모의 내용이 있는 일정에 아이콘 표시

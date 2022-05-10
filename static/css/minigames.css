@@ -1,256 +1,456 @@
-main{
-    display: flex;
-    justify-content: center;
-    min-height: 94vh;
-    padding-top: 6vh;
-    background-color: var(--color_light_gray);
+main {
+  display: flex;
+  justify-content: center;
+  min-height: 94vh;
+  padding-top: 6vh;
+  background-color: var(--color_light_gray);
 }
 
-.ad_section{
-    width: 20%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: fixed;
-    top: 7%;
-    left: 0;
+.ad_section {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 7%;
+  left: 0;
 }
-.advertising{
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    width: 250px;
-    height: 400px;
-    background-color: white;
-    border: 1px solid black;
-    margin-bottom: 20px;
+.advertising {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 250px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid black;
+  margin-bottom: 20px;
 }
 
+.content_section {
+  width: 60%;
+  min-height: 94vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+  background-color: var(--color_light_gray);
+}
+.free_abilitystonegame_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  height: 250px;
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  margin: 5px;
+}
+.free_abilitystonegame_titlebox {
+  width: 100%;
+  background-color: var(--color_dark);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0;
+}
+.free_abilitystonegame_start_container {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.free_abilitystonegame_start_announcement {
+  background-color: var(--color_dark);
+  width: 80%;
+  height: 50%;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.free_abilitystonegame_start_announcement > p {
+  color: white;
+}
+.free_abilitystonegame_start_btn {
+  margin-top: 5%;
+  background-color: var(--color_dark);
+  color: white;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.5s;
+  border: 2px solid var(--color_dark);
+  font-weight: 500;
+}
+.free_abilitystonegame_start_btn:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
+}
+.free_abilitystonegame_contentbox {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 5px 5px;
+}
+.free_abilitystonegame_row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+.free_abilitystonegame_row:nth-child(1) {
+  justify-content: flex-end;
+}
+.free_abilitystonegame_row:nth-child(5) {
+  margin-top: 15px;
+  justify-content: center;
+}
+#free_abilitystonegame_probability {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+}
+.free_abilitystonegame_name {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+}
+.free_diamond {
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--color_dark);
+  transform: translateY(6px) rotate(45deg);
+  background-color: white;
+  transition: ease-in-out 0.5s;
+}
+.free_abilitystonegame_numberofsuccess {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+}
+.free_abilitystonegame_btn_doit {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px 0 0;
+  transition: ease-in-out 0.5s;
+  cursor: pointer;
+}
+.free_abilitystonegame_btn_doit:hover {
+  background-color: var(--color_deep_dark);
+}
+.free_abilitystonegame_btn_done {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: ease-in-out 0.5s;
+  cursor: pointer;
+}
+.free_abilitystonegame_btn_done:hover {
+  background-color: var(--color_deep_dark);
+}
 
-
-
-
-.content_section{
-    width: 60%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 1;
-    background-color: var(--color_light_gray);
+.abilitystonegame_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  height: 250px;
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  margin: 5px;
 }
-.abilitystonegame_container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 800px;
-    height: 250px;
-    border: 2px solid var(--color_dark);
-    border-radius: 5px;
-    margin: 5px;
+.abilitystonegame_titlebox {
+  width: 100%;
+  background-color: var(--color_dark);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0;
 }
-.abilitystonegame_titlebox{
-    width: 100%;
-    background-color: var(--color_dark);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 0;
+.abilitystonegame_start_container {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.abilitystonegame_contentbox{
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0 0 5px 5px;
+.abilitystonegame_start_announcement {
+  background-color: var(--color_dark);
+  width: 80%;
+  height: 50%;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.abilitystonegame_row{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 0;
+.abilitystonegame_start_announcement > p {
+  color: white;
 }
-.abilitystonegame_row:nth-child(1){
-    justify-content: flex-end;
+.abilitystonegame_start_btn {
+  margin-top: 5%;
+  background-color: var(--color_dark);
+  color: white;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.5s;
+  border: 2px solid var(--color_dark);
+  font-weight: 500;
 }
-.abilitystonegame_row:nth-child(5){
-    margin-top: 15px;
-    justify-content: center;
+.abilitystonegame_start_btn:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
 }
-#abilitystonegame_probability{
-    background-color: var(--color_dark);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 20px;
+.abilitystonegame_contentbox {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0 0 5px 5px;
 }
-.abilitystonegame_name{
-    background-color: var(--color_dark);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    width: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 20px;
+.abilitystonegame_row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+.abilitystonegame_row:nth-child(1) {
+  justify-content: flex-end;
+}
+.abilitystonegame_row:nth-child(5) {
+  margin-top: 15px;
+  justify-content: center;
+}
+#abilitystonegame_probability {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+}
+.abilitystonegame_name {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
 }
 .diamond {
-    width: 15px;
-    height: 15px;
-    border: 2px solid var(--color_dark);
-    transform: translateY(6px) rotate(45deg);
-    background-color: white;
+  width: 15px;
+  height: 15px;
+  border: 2px solid var(--color_dark);
+  transform: translateY(6px) rotate(45deg);
+  background-color: white;
+  transition: ease-in-out 0.5s;
 }
-.abilitystonegame_numberofsuccess{
-    background-color: var(--color_dark);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    width: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 20px;
+.abilitystonegame_numberofsuccess {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
 }
-.abilitystonegame_btn_doit{
-    background-color: var(--color_dark);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    width: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 20px 0 0;
-    transition: ease-in-out 0.5s;
-    cursor: pointer;
+.abilitystonegame_btn_doit {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px 0 0;
+  transition: ease-in-out 0.5s;
+  cursor: pointer;
 }
-.abilitystonegame_btn_doit:hover{
-    background-color: var(--color_deep_dark);
+.abilitystonegame_btn_doit:hover {
+  background-color: var(--color_deep_dark);
 }
-.abilitystonegame_btn_init{
-    background-color: var(--color_dark);
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    width: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: ease-in-out 0.5s;
-    cursor: pointer;
+.abilitystonegame_btn_done {
+  background-color: var(--color_dark);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: ease-in-out 0.5s;
+  cursor: pointer;
 }
-.abilitystonegame_btn_init:hover{
-    background-color: var(--color_deep_dark);
-}
-
-
-
-
-.point_section{
-    width: 20%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    position: fixed;
-    right: 0;
-    top: 7%;
-}
-.myinfo_container{
-    display: flex;
-    flex-direction: column;
-    border: 2px solid var(--color_dark);
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-.myinfo_title{
-    color: white;
-    background-color: var(--color_dark);
-    display: flex;
-    text-align: center;
-    justify-content: center;
-}
-.myinfo_contnet{
-    background-color: white;
-}
-.myinfo_row{
-    display: flex;
-    border-bottom: 1px solid var(--color_dark);
-}
-.myinfo_row:last-child{
-    border:none;
-}
-.myinfo_row_title{
-    width: 80px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.myinfo_row_content{
-    width: 200px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.abilitystonegame_btn_done:hover {
+  background-color: var(--color_deep_dark);
 }
 
-.point_ranking_container{
-    display: flex;
-    flex-direction: column;
-    border: 2px solid var(--color_dark);
-    border-radius: 5px;
+.point_section {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  top: 7%;
 }
-.point_ranking_title{
-    color: white;
-    background-color: var(--color_dark);
-    display: flex;
-    text-align: center;
-    justify-content: center;
+.myinfo_container {
+  display: flex;
+  width: 250px;
+  flex-direction: column;
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
-.point_ranking_contnet{
-    background-color: white;
+.myinfo_title {
+  width: 100%;
+  color: white;
+  background-color: var(--color_dark);
+  display: flex;
+  text-align: center;
+  justify-content: center;
 }
-.point_ranking_row{
-    display: flex;
-    border-bottom: 1px solid var(--color_dark);
+.myinfo_contnet {
+  width: 100%;
+  background-color: white;
 }
-.point_ranking_row:last-child{
-    border: none;
+.myinfo_row {
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid var(--color_dark);
 }
-.point_ranking_row_rank{
-    width: 40px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.myinfo_row:last-child {
+  border: none;
 }
-.point_ranking_row_nickname{
-    width: 120px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.myinfo_row_title {
+  width: 30%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.point_ranking_row_point{
-    width: 120px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.myinfo_row_content {
+  width: 70%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.point_ranking_container {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  width: 250px;
+}
+.point_ranking_title {
+  color: white;
+  background-color: var(--color_dark);
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+}
+.point_ranking_contnet {
+  background-color: white;
+  width: 100%;
+}
+.point_ranking_row {
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid var(--color_dark);
+}
+.point_ranking_row:last-child {
+  border: none;
+}
+.point_ranking_row_rank {
+  width: 10%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.point_ranking_row_nickname {
+  width: 40%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.point_ranking_row_point {
+  width: 50%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*현재 위치의 메뉴 색 바꾸기*/
-#header_list_container li:nth-child(6) a{
-    background-color: var(--color_deep_dark);
+#header_list_container li:nth-child(6) a {
+  background-color: var(--color_deep_dark);
 }
