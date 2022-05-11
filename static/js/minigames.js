@@ -1,6 +1,7 @@
 $(document).ready(function () {
   userCheck();
   printPointRanking();
+  printGameCount();
 });
 //로그인의 유무와 로그인한 정보의 권한을 체크, 권한별 컨텐츠 표시(일정추가)
 function userCheck() {
@@ -14,7 +15,7 @@ function userCheck() {
   }
 }
 
-//포인트 랭킹 가져와서 출력해주기, 내 포인트 출력
+//포인트 랭킹 가져와서 출력해주기, 내 포인트 출력, -10만 포인트 보다 작으면 출입금지
 function printPointRanking() {
   $.ajax({
     type: "GET",
@@ -22,6 +23,17 @@ function printPointRanking() {
     dataType: "json",
     data: {},
     success: function (response) {
+      console.log(response["mypoint"]);
+      if (response["mypoint"] < -100000) {
+        Swal.fire({
+          title: "출입금지",
+          text: "주인장이 내쫓았습니다.",
+          icon: "error",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.href = "/";
+        });
+      }
       $(".myinfo_row:nth-child(2) > .myinfo_row_content:nth-child(2)").text(
         response["mypoint"]
       );
@@ -43,14 +55,45 @@ function printPointRanking() {
   });
 }
 
+// 게임별 카운트 횟수 출력
+function printGameCount() {
+  $.ajax({
+    type: "GET",
+    url: "/minigames/api_printgamecount/",
+    dataType: "json",
+    data: {},
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        $(".abilitystonegame_titlebox_count").text(
+          response["abilitystonegamecount"] + "/4"
+        );
+        $(".findninavegame_titlebox_count").text(
+          response["findninavegamecount"] + "/99"
+        );
+      } else {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "error",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+}
+
 // 포인트 감소 기능
-function decreasePoints(point) {
+function decreasePoints(point, gamecount, maxGamecount) {
   $.ajax({
     type: "POST",
     url: "/minigames/api_gamestart/",
     dataType: "json",
     data: {
       decrease_point_give: point,
+      gamecount_give: gamecount,
+      max_gamecount_give: maxGamecount,
     },
     success: function (response) {
       if (response["result"] == "FAIL") {
@@ -331,7 +374,7 @@ var abilitystoneCSuccessNumber = 0;
 // 어빌리티 스톤 유료버전
 $(".abilitystonegame_start_btn").click(function () {
   let decreasePoint = 2500;
-  decreasePoints(decreasePoint);
+  decreasePoints(decreasePoint, "abilitystonegamecount", 4);
   $(".abilitystonegame_start_container").hide();
   let tempHtml = `<div class="abilitystonegame_contentbox">
                     <div class="abilitystonegame_row">
@@ -396,7 +439,6 @@ $(document).on(
   function () {
     if (abilitystoneA <= 10) {
       random_number = Math.floor(Math.random() * 101);
-      console.log(random_number);
       if (random_number < abilitystoneGameProbability) {
         if (abilitystoneGameProbability <= 25) {
           abilitystoneGameProbability = 25;
@@ -464,7 +506,6 @@ $(document).on(
   function () {
     if (abilitystoneB <= 10) {
       random_number = Math.floor(Math.random() * 101);
-      console.log(random_number);
       if (random_number < abilitystoneGameProbability) {
         if (abilitystoneGameProbability <= 25) {
           abilitystoneGameProbability = 25;
@@ -532,7 +573,6 @@ $(document).on(
   function () {
     if (abilitystoneC <= 10) {
       random_number = Math.floor(Math.random() * 101);
-      console.log(random_number);
       if (random_number < abilitystoneGameProbability) {
         if (abilitystoneGameProbability <= 25) {
           abilitystoneGameProbability = 25;
@@ -596,27 +636,137 @@ $(document).on(
 // 어빌리티 스톤 게임 완료기능
 $(document).on("click", ".abilitystonegame_btn_done", function () {
   let resultPoint =
-    500 * parseInt(abilitystoneASuccessNumber) +
-    500 * parseInt(abilitystoneBSuccessNumber) -
-    500 * parseInt(abilitystoneCSuccessNumber);
-  $.ajax({
-    type: "POST",
-    url: "/minigames/api_gamedone/",
-    dataType: "json",
-    data: {
-      result_point_give: resultPoint,
-    },
-    success: function (response) {
-      if (response["result"] == "SUCCESS") {
-        Swal.fire({
-          title: response["title"],
-          text: response["msg"],
-          icon: "success",
-          confirmButtonColor: "#5b7d97",
-        }).then((result) => {
-          location.reload();
-        });
-      }
-    },
+    500 *
+    (parseInt(abilitystoneASuccessNumber) +
+      parseInt(abilitystoneBSuccessNumber) -
+      parseInt(abilitystoneCSuccessNumber));
+  Swal.fire({
+    title: "게임 결과",
+    text:
+      "성공: " +
+      abilitystoneASuccessNumber +
+      "+" +
+      abilitystoneBSuccessNumber +
+      " 실패: " +
+      abilitystoneCSuccessNumber +
+      " 포인트획득 = " +
+      resultPoint,
+    icon: "success",
+    confirmButtonColor: "#5b7d97",
+  }).then((result) => {
+    $.ajax({
+      type: "POST",
+      url: "/minigames/api_gamedone/",
+      dataType: "json",
+      data: {
+        result_point_give: resultPoint,
+      },
+      success: function (response) {
+        if (response["result"] == "SUCCESS") {
+          Swal.fire({
+            title: response["title"],
+            text: response["msg"],
+            icon: "success",
+            confirmButtonColor: "#5b7d97",
+          }).then((result) => {
+            location.reload();
+          });
+        }
+      },
+    });
   });
+});
+
+const findninavegameRandomNumber = Math.floor(Math.random() * 4) + 1;
+// 니나브 찾기 게임
+$(".findninavegame_start_btn").click(function () {
+  let decreasePoint = 5000;
+  decreasePoints(decreasePoint, "findninavegamecount", 99);
+  $(".findninavegame_start_container").hide();
+  let tempHtml = `<div class="findninavegame_contentbox">
+                  <div class="findninavegame_background">
+                    <div id="findninavegame_card1" class="findninavegame_card"></div>
+                    <div id="findninavegame_card2" class="findninavegame_card"></div>
+                    <div id="findninavegame_card3" class="findninavegame_card"></div>
+                    <div id="findninavegame_card4" class="findninavegame_card"></div>
+                    <div id="findninavegame_card5" class="findninavegame_card"></div>
+                  </div>
+                </div>`;
+  $(".findninavegame_container").append(tempHtml);
+});
+// 니나브 찾기 게임 카드 클릭
+$(document).on("click", ".findninavegame_card", function (event) {
+  let test = $(event.currentTarget).attr("id");
+  let resultPoint = 0;
+  $(".findninavegame_card").css(
+    "background-image",
+    "url('../static/img/findninavegame_koukusaton.png')"
+  );
+  $("#findninavegame_card" + findninavegameRandomNumber).css(
+    "background-image",
+    "url('../static/img/findninavegame_ninave.png')"
+  );
+  const selectedCard = $(event.currentTarget).attr("style");
+  if (
+    selectedCard ==
+    'background-image: url("../static/img/findninavegame_ninave.png");'
+  ) {
+    resultPoint = 20000;
+    Swal.fire({
+      title: "니나브를 찾았습니다!",
+      text: "20000포인트를 적립합니다.",
+      icon: "success",
+      confirmButtonColor: "#5b7d97",
+    }).then((result) => {
+      $.ajax({
+        type: "POST",
+        url: "/minigames/api_gamedone/",
+        dataType: "json",
+        data: {
+          result_point_give: resultPoint,
+        },
+        success: function (response) {
+          if (response["result"] == "SUCCESS") {
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "success",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.reload();
+            });
+          }
+        },
+      });
+    });
+  } else {
+    resultPoint = 0;
+    Swal.fire({
+      title: "니나브를 찾지 못했습니다..",
+      text: "다음 기회를 노려주세요.",
+      icon: "error",
+      confirmButtonColor: "#5b7d97",
+    }).then((result) => {
+      $.ajax({
+        type: "POST",
+        url: "/minigames/api_gamedone/",
+        dataType: "json",
+        data: {
+          result_point_give: resultPoint,
+        },
+        success: function (response) {
+          if (response["result"] == "SUCCESS") {
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "success",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.reload();
+            });
+          }
+        },
+      });
+    });
+  }
 });

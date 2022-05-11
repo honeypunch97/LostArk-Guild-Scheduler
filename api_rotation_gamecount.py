@@ -18,7 +18,8 @@ db = client.dblags
 # 매일 00시마다 실행 with crontab 0 0 * * *
 
 def api_rotation_gamecount():
-    db.users.update_many({}, {'$set' : {'abilitystonegamecount': 0}})
+    db.users.update_many({}, {'$set' : {'abilitystonegamecount': 0, 
+                                        'findninavegamecount':0}})
     return 0
 
 api_rotation_gamecount()

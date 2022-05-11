@@ -13,9 +13,9 @@ with open('./secret.json', 'r') as json_file:
     SECRET_DATA = json.load(json_file)
     
 # ec2실행
-# client = MongoClient(SECRET_DATA['CLIENT_EC2'], SECRET_DATA['PORT_NUMBER'])
+client = MongoClient(SECRET_DATA['CLIENT_EC2'], SECRET_DATA['PORT_NUMBER'])
 # local실행
-client = MongoClient('localhost', SECRET_DATA['PORT_NUMBER'])
+# client = MongoClient('localhost', SECRET_DATA['PORT_NUMBER'])
 
 db = client.dblags
 
@@ -230,7 +230,8 @@ def api_signup():
         'point': 10000,
         'lastlogin': today,
         'schjoincount': 0,
-        'abilitystonegamecount': 0
+        'abilitystonegamecount': 0,
+        'findninavegamecount': 0
     }
     db.users.insert_one(doc)
 
@@ -946,6 +947,25 @@ def api_print_pointranking():
             top_ranking_list.append({'nickname': all_user[i]['nickname'], 'point': all_user[i]['point']})
     return jsonify({'result': 'SUCCESS', 'top_ranking_list': top_ranking_list, 'mypoint': mypoint})
     
+    
+# 미니게임 페이지, 게임별 카운트 횟수 출력
+@app.route("/minigames/api_printgamecount/", methods=['GET'])
+def api_printgamecount():
+    try:
+        payload = find_payload()
+        myinfo = db.users.find_one({'nickname': payload['nickname']})
+        abilitystonegamecount = myinfo['abilitystonegamecount']
+        findninavegamecount = myinfo['findninavegamecount']
+        print(abilitystonegamecount,findninavegamecount)
+        return jsonify({'result': 'SUCCESS', 
+                        'abilitystonegamecount': abilitystonegamecount, 
+                        'findninavegamecount': findninavegamecount})
+    except:
+        return jsonify({'result': 'FAIL', 
+                        'title': '데이터 로드 실패', 
+                        'msg': '로그인이 유효하지 않습니다.'})
+    
+    
 # 미니게임 페이지, 포인트 감소시키키 (if click 'game start btn')
 @app.route("/minigames/api_gamestart/", methods=['POST'])
 def api_gamestart():
@@ -953,11 +973,13 @@ def api_gamestart():
         payload = find_payload()
         user_info = db.users.find_one({'nickname': payload['nickname']})
         decrease_point_receive = int(request.form['decrease_point_give'])
-        if user_info['abilitystonegamecount'] >= 4:
+        gamecount_receive = request.form['gamecount_give']
+        max_gamecount_receive = int(request.form['max_gamecount_give'])
+        if user_info[gamecount_receive] >= max_gamecount_receive:
             return jsonify({'result': 'FAIL', 'title': '게임 시작 실패', 'msg': '일일 가능 횟수를 모두 소진했습니다.'})
         else:
-            abilitystonegamecount = user_info['abilitystonegamecount'] + 1
-            db.users.update_one({'nickname': payload['nickname']}, {'$set': {'abilitystonegamecount': abilitystonegamecount}})
+            abilitystonegamecount = user_info[gamecount_receive] + 1
+            db.users.update_one({'nickname': payload['nickname']}, {'$set': {gamecount_receive: abilitystonegamecount}})
         point = user_info['point'] - decrease_point_receive - 2500
         db.users.update_one({'nickname': payload['nickname']}, {'$set': {'point': point}})
         return jsonify({'result': 'SUCCESS', 'title': '게임 시작 성공', 'msg': '게임 시작을 성공했습니다.'})
