@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import json
+import datetime
 
 
 # ec2실행
@@ -13,6 +14,13 @@ client = MongoClient(SECRET_DATA['CLIENT_EC2'], SECRET_DATA['PORT_NUMBER'])
 # client = MongoClient('localhost', SECRET_DATA['PORT_NUMBER'])
 
 db = client.dblags
+
+# 로그 저장 함수
+def save_log(log_nickname, log_title, log_content):
+    time = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime('%Y년 %m월 %d일 %H시 %M분 %S초')
+    logdoc = {'time': time, 'nickname': log_nickname, 'title': log_title, 'content': log_content}
+    print(logdoc)
+    db.logdb.insert_one(logdoc)
 
 
 # 수요일 06시마다 실행 with crontab 0 6 * * 3
@@ -71,11 +79,12 @@ def api_rotation_sch():
         }
         db.thisweeksch.insert_one(doc)
 
-        # DB_nextweeksch의 내용을 전체삭제해주기
-        db.nextweeksch.delete_many({})
-        # DB_nextweeksch에 temp_sch_list의  값을 넣어주기
-        for temp_sch in temp_sch_list:
-            db.nextweeksch.insert_one(temp_sch)
+    # DB_nextweeksch의 내용을 전체삭제해주기
+    db.nextweeksch.delete_many({})
+    # DB_nextweeksch에 temp_sch_list의  값을 넣어주기
+    for temp_sch in temp_sch_list:
+        db.nextweeksch.insert_one(temp_sch)
+    save_log('SYSTEM', '일정 로테이션', '일정 로테이션 작동')
     return 0
 
 api_rotation_sch()
