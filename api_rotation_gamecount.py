@@ -27,7 +27,8 @@ def save_log(log_nickname, log_title, log_content):
 
 def api_rotation_gamecount():
     db.users.update_many({}, {'$set' : {'abilitystonegamecount': 0, 
-                                        'findninavegamecount':0}})
+                                        'findninavegamecount':0,
+                                        'papunikafishinggamecount':0}})
     save_log('SYSTEM', '게임 횟수 초기화', '게임 횟수 초기화 작동')
     return 0
 
