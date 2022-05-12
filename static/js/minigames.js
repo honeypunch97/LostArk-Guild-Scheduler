@@ -23,7 +23,6 @@ function printPointRanking() {
     dataType: "json",
     data: {},
     success: function (response) {
-      console.log(response["mypoint"]);
       if (response["mypoint"] < -100000) {
         Swal.fire({
           title: "출입금지",
@@ -69,6 +68,9 @@ function printGameCount() {
         );
         $(".findninavegame_titlebox_count").text(
           response["findninavegamecount"] + "/99"
+        );
+        $(".papunikafishinggame_titlebox_count").text(
+          response["papunikafishinggamecount"] + "/10"
         );
       } else {
         Swal.fire({
@@ -677,8 +679,8 @@ $(document).on("click", ".abilitystonegame_btn_done", function () {
   });
 });
 
-const findninavegameRandomNumber = Math.floor(Math.random() * 4) + 1;
 // 니나브 찾기 게임
+const findninavegameRandomNumber = Math.floor(Math.random() * 4) + 1;
 $(".findninavegame_start_btn").click(function () {
   let decreasePoint = 5000;
   decreasePoints(decreasePoint, "findninavegamecount", 99);
@@ -690,13 +692,15 @@ $(".findninavegame_start_btn").click(function () {
                     <div id="findninavegame_card3" class="findninavegame_card"></div>
                     <div id="findninavegame_card4" class="findninavegame_card"></div>
                     <div id="findninavegame_card5" class="findninavegame_card"></div>
+                    <div class="findninavegame_btn_done">완료</div>
                   </div>
                 </div>`;
   $(".findninavegame_container").append(tempHtml);
 });
+let selectedCard = "";
 // 니나브 찾기 게임 카드 클릭
 $(document).on("click", ".findninavegame_card", function (event) {
-  let test = $(event.currentTarget).attr("id");
+  $(document).off("click", ".findninavegame_card");
   let resultPoint = 0;
   $(".findninavegame_card").css(
     "background-image",
@@ -706,7 +710,10 @@ $(document).on("click", ".findninavegame_card", function (event) {
     "background-image",
     "url('../static/img/findninavegame_ninave.png')"
   );
-  const selectedCard = $(event.currentTarget).attr("style");
+  selectedCard = $(event.currentTarget).attr("style");
+});
+// 니나브 찾기 게임 완료 버튼 클릭
+$(document).on("click", ".findninavegame_btn_done", function () {
   if (
     selectedCard ==
     'background-image: url("../static/img/findninavegame_ninave.png");'
@@ -769,4 +776,100 @@ $(document).on("click", ".findninavegame_card", function (event) {
       });
     });
   }
+});
+
+// 파푸니카 낚시 게임
+const papunikaFishingGameRandomNumber = Math.floor(Math.random() * 100) + 1;
+// 게임시작버튼 클릭시, 화면교체
+$(".papunikafishinggame_start_btn").click(function () {
+  let decreasePoint = 0;
+  decreasePoints(decreasePoint, "papunikafishinggamecount", 10);
+  $(".papunikafishinggame_start_container").hide();
+  const tempHtml = `<div class="papunikafishinggame_contentbox">
+                      <div class="papunikafishinggame_background">
+                        <div class="papunikafishinggame_item">
+                          <div class="papunikafishinggame_item_img"></div>
+                          <div class="papunikafishinggame_item_content"></div>
+                        </div>
+                        <div class="papunikafishinggame_btn_start">뭔가 낚였다..!</div>
+                      </div>
+                    </div>`;
+  $(".papunikafishinggame_container").append(tempHtml);
+});
+// '뭔가가 걸려들었다..!'클릭시 게임 진행
+let resultPoint = 0;
+$(document).on("click", ".papunikafishinggame_btn_start", function () {
+  // 낚싯 보상 애니메이션
+  $(".papunikafishinggame_item").animate(
+    {
+      opacity: 1,
+      top: "50%",
+    },
+    2000
+  );
+  $(".papunikafishinggame_btn_start").remove();
+  // 랜덤숫자로 보상 이미지, 텍스트 넣기, 보상포인트 변수에 넣기
+  if (papunikaFishingGameRandomNumber >= 100) {
+    resultPoint = 100000;
+    $(".papunikafishinggame_item_img").css(
+      "background-image",
+      "url('../static/img/papunikafishinggame_sunfish.png')"
+    );
+    $(".papunikafishinggame_item_content").append(
+      `<p>오레하 태양 잉어</p><p>+100000포인트</p>`
+    );
+  } else if (papunikaFishingGameRandomNumber >= 90) {
+    resultPoint = 1000;
+    $(".papunikafishinggame_item_img").css(
+      "background-image",
+      "url('../static/img/papunikafishinggame_pearl.png')"
+    );
+    $(".papunikafishinggame_item_content").append(
+      `<p>진주</p><p>+1000포인트</p>`
+    );
+  } else if (papunikaFishingGameRandomNumber >= 50) {
+    resultPoint = 500;
+    $(".papunikafishinggame_item_img").css(
+      "background-image",
+      "url('../static/img/papunikafishinggame_fish.png')"
+    );
+    $(".papunikafishinggame_item_content").append(
+      `<p>생선</p><p>+500포인트</p>`
+    );
+  } else {
+    resultPoint = -500;
+    $(".papunikafishinggame_item_img").css(
+      "background-image",
+      "url('../static/img/papunikafishinggame_trash.png')"
+    );
+    $(".papunikafishinggame_item_content").append(
+      `<p>쓰레기</p><p>-500포인트</p>`
+    );
+  }
+  $(".papunikafishinggame_background").append(
+    `<div class="papunikafishinggame_btn_done">완료</div>`
+  );
+});
+// 완료하기 버튼 클릭시 정산
+$(document).on("click", ".papunikafishinggame_btn_done", function () {
+  $.ajax({
+    type: "POST",
+    url: "/minigames/api_gamedone/",
+    dataType: "json",
+    data: {
+      result_point_give: resultPoint,
+    },
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
 });

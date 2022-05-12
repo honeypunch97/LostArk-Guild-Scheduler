@@ -458,6 +458,7 @@ main {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: relative;
 }
 .findninavegame_card {
   width: 154px;
@@ -470,17 +471,192 @@ main {
   border-radius: 5px;
   transform: scale(1.1);
 }
-#findninavegame_card1 {
+.findninavegame_btn_done {
+  margin-top: 5%;
+  background-color: var(--color_dark);
+  color: white;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.5s;
+  border: 2px solid var(--color_dark);
+  font-weight: 500;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-#findninavegame_card2 {
-}
-#findninavegame_card3 {
-}
-#findninavegame_card4 {
-}
-#findninavegame_card5 {
+.findninavegame_btn_done:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
 }
 
+.papunikafishinggame_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  height: 330px;
+  border: 2px solid var(--color_dark);
+  border-radius: 5px;
+  margin: 5px;
+}
+.papunikafishinggame_titlebox {
+  width: 100%;
+  background-color: var(--color_dark);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 0;
+}
+.papunikafishinggame_titlebox div {
+  width: 5%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.papunikafishinggame_titlebox h1 {
+  width: 90%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.papunikafishinggame_start_container {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.papunikafishinggame_start_announcement {
+  background-color: var(--color_dark);
+  width: 80%;
+  height: 50%;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.papunikafishinggame_start_announcement p {
+  color: white;
+}
+.papunikafishinggame_start_btn {
+  margin-top: 5%;
+  background-color: var(--color_dark);
+  color: white;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.5s;
+  border: 2px solid var(--color_dark);
+  font-weight: 500;
+}
+.papunikafishinggame_start_btn:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
+}
+.papunikafishinggame_contentbox {
+  width: 100%;
+  height: 100%;
+}
+.papunikafishinggame_background {
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/papunikafishinggame_background.png");
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+}
+.papunikafishinggame_item {
+  width: 280px;
+  height: 120px;
+  background-color: rgba(255, 255, 255, 0.6);
+  opacity: 0;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+.papunikafishinggame_item_img {
+  width: 100px;
+  height: 100px;
+}
+.papunikafishinggame_item_content {
+  width: 150px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.papunikafishinggame_item_content p {
+  font-size: 20px;
+  font-weight: 700;
+}
+.papunikafishinggame_btn_done {
+  background-color: var(--color_dark);
+  color: white;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.5s;
+  border: 2px solid var(--color_dark);
+  font-weight: 500;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.papunikafishinggame_btn_done:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
+}
+.papunikafishinggame_btn_start {
+  background-color: var(--color_dark);
+  color: white;
+  width: 100px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: ease-in-out 0.5s;
+  border: 2px solid var(--color_dark);
+  font-weight: 500;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.papunikafishinggame_btn_start:hover {
+  background-color: white;
+  color: var(--color_deep_dark);
+}
 .point_section {
   width: 20%;
   height: 100%;

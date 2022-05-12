@@ -13,9 +13,9 @@ with open('./secret.json', 'r') as json_file:
     SECRET_DATA = json.load(json_file)
     
 # ec2실행
-# client = MongoClient(SECRET_DATA['CLIENT_EC2'], SECRET_DATA['PORT_NUMBER'])
+client = MongoClient(SECRET_DATA['CLIENT_EC2'], SECRET_DATA['PORT_NUMBER'])
 # local실행
-client = MongoClient('localhost', SECRET_DATA['PORT_NUMBER'])
+# client = MongoClient('localhost', SECRET_DATA['PORT_NUMBER'])
 
 db = client.dblags
 
@@ -147,7 +147,8 @@ def api_signup():
         'lastlogin': today,
         'schjoincount': 0,
         'abilitystonegamecount': 0,
-        'findninavegamecount': 0
+        'findninavegamecount': 0,
+        'papunikafishinggamecount': 0,
     }
     db.users.insert_one(doc)
 
@@ -872,10 +873,11 @@ def api_printgamecount():
         myinfo = db.users.find_one({'nickname': payload['nickname']})
         abilitystonegamecount = myinfo['abilitystonegamecount']
         findninavegamecount = myinfo['findninavegamecount']
-        print(abilitystonegamecount,findninavegamecount)
+        papunikafishinggamecount = myinfo['papunikafishinggamecount']
         return jsonify({'result': 'SUCCESS', 
                         'abilitystonegamecount': abilitystonegamecount, 
-                        'findninavegamecount': findninavegamecount})
+                        'findninavegamecount': findninavegamecount,
+                        'papunikafishinggamecount': papunikafishinggamecount})
     except:
         return jsonify({'result': 'FAIL', 
                         'title': '데이터 로드 실패', 

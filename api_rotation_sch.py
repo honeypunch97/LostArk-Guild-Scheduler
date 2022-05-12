@@ -29,7 +29,6 @@ def api_rotation_sch():
     # DB_thisweeksch의 내용 초기화
     db.thisweeksch.delete_many({})
 
-
     # ('fixedparty' == 'true'이면, 그대로 temp_sch_list에 넣어두고),
     # ('repeatsch'=='true'이면, 'member'값을 []로 초기화해서 넣어두기)
     next_sch_list = list(db.nextweeksch.find({}, {'_id': False}))
