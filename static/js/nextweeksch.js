@@ -1,249 +1,122 @@
 $(document).ready(function () {
-  userCheck();
   printSch();
   findMainAnnouncement();
 });
 
-//로그인의 유무와 로그인한 정보의 권한을 체크, 권한별 컨텐츠 표시(일정추가)
-function userCheck() {
-  let myMembership = $(".mainlogo").attr("data-membership");
-  if (myMembership == "비로그인") {
-    Swal.fire({
-      title: "비로그인",
-      text: "로그인이 필요합니다.",
-      icon: "error",
-      confirmButtonColor: "#5b7d97",
-    }).then((result) => {
-      location.href = "/";
-    });
-  } else if (myMembership == "비승인회원") {
-    location.href = "/needallow/";
-  } else if (myMembership == "승인회원") {
-    //우측하단 일정추가하기 버튼 넣어주기
-    let openDetailSchBtnHtml = `<i onclick="openBtn()" class="bi bi-plus-square"></i>`;
-    $(".btn_container").append(openDetailSchBtnHtml);
+//우측하단 일정추가하기 버튼 넣어주기
+let openDetailSchBtnHtml = `<i onclick="openBtn()" class="bi bi-plus-square"></i>`;
+$(".btn_container").append(openDetailSchBtnHtml);
 
-    //일정추가하기창 넣어주기(display:none)
-    let addSchContainerHtml = `<div class="addsch_container">
-                                    <div class="addsch_box">
-                                        <div class="addsch_title">
-                                            <div></div>
-                                            <h1>일정추가</h1>
-                                            <div onclick="closeBtn()" class="btn_close">X</div>
-                                        </div>
-                                        <div class="addsch_content">
-                                            <div class="addsch_content_row">
-                                                <div class="addsch_content_item">
-                                                    <div>난이도</div>
-                                                    <select id="addsch_difficulty">
-                                                        <option>노말</option>
-                                                        <option>하드</option>
-                                                        <option>헬</option>
-                                                    </select>
-                                                </div>
-                                                <div class="addsch_content_item">
-                                                    <div>컨텐츠</div>
-                                                    <select id="addsch_content">
-                                                        <option>토벌전</option>
-                                                        <option>카양겔</option>
-                                                        <option>아르고스</option>
-                                                        <option>발탄</option>
-                                                        <option>비아키스</option>
-                                                        <option>쿠크세이튼</option>
-                                                        <option>아브렐슈드</option>
-                                                        <option>일리아칸</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="addsch_content_row">
-                                                <div class="addsch_content_item">
-                                                    <div>관문</div>
-                                                    <select id="addsch_gate">
-                                                        <option>관문없음</option>
-                                                        <option>1~2관문</option>
-                                                        <option>1~3관문</option>
-                                                        <option>1~4관문</option>
-                                                        <option>1~6관문</option>
-                                                        <option>3~4관문</option>
-                                                        <option>5~6관문</option>
-                                                    </select>
-                                                </div>
-                                                <div class="addsch_content_item">
-                                                    <div>요일</div>
-                                                    <select id="addsch_day">
-                                                        <option>수</option>
-                                                        <option>목</option>
-                                                        <option>금</option>
-                                                        <option>토</option>
-                                                        <option>일</option>
-                                                        <option>월</option>
-                                                        <option>화</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="addsch_content_row">
-                                                <div class="addsch_content_item">
-                                                    <div>시간</div>
-                                                    <select id="addsch_time">
-                                                        <option>00:00</option>
-                                                        <option>01:00</option>
-                                                        <option>02:00</option>
-                                                        <option>03:00</option>
-                                                        <option>04:00</option>
-                                                        <option>05:00</option>
-                                                        <option>06:00</option>
-                                                        <option>07:00</option>
-                                                        <option>08:00</option>
-                                                        <option>09:00</option>
-                                                        <option>10:00</option>
-                                                        <option>11:00</option>
-                                                        <option>12:00</option>
-                                                        <option>13:00</option>
-                                                        <option>14:00</option>
-                                                        <option>15:00</option>
-                                                        <option>16:00</option>
-                                                        <option>17:00</option>
-                                                        <option>18:00</option>
-                                                        <option>19:00</option>
-                                                        <option>20:00</option>
-                                                        <option>21:00</option>
-                                                        <option>22:00</option>
-                                                        <option>23:00</option>
-                                                        <option>24:00</option>
-                                                    </select>
-                                                </div>
-                                                <div class="addsch_content_item">
-                                                    <div>메모</div>
-                                                    <input type="text" name="addsch_memo" id="addsch_memo">
-                                                </div>
-                                            </div>
-                                            <div class="addsch_content_row">
-                                                <div onclick="addSch()" class="btn_insertsch">추가하기</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-    $("footer").append(addSchContainerHtml);
-  } else if (myMembership == "관리자") {
-    //우측하단 일정추가하기 버튼 넣어주기
-    let openDetailSchBtnHtml = `<i onclick="openBtn()" class="bi bi-plus-square"></i>`;
-    $(".btn_container").append(openDetailSchBtnHtml);
-
-    //일정 추가 하기 창 넣어주기(display:none)
-    let addSchContainerHtml = `<div class="addsch_container">
-        <div class="addsch_box">
-            <div class="addsch_title">
-                <div></div>
-                <h1>일정추가</h1>
-                <div onclick="closeBtn()" class="btn_close">X</div>
+//일정 추가 하기 창 넣어주기(display:none)
+let addSchContainerHtml = `<div class="addsch_container">
+    <div class="addsch_box">
+        <div class="addsch_title">
+            <h1>일정추가</h1>
+            <div onclick="closeBtn()" class="btn_close"><i class="bi bi-x-lg"></i></div>
+        </div>
+        <div class="addsch_content">
+            <div class="addsch_content_row">
+                <div class="addsch_content_item">
+                    <div>난이도</div>
+                    <select id="addsch_difficulty">
+                        <option>노말</option>
+                        <option>하드</option>
+                        <option>헬</option>
+                    </select>
+                </div>
+                <div class="addsch_content_item">
+                    <div>컨텐츠</div>
+                    <select id="addsch_content">
+                        <option>도비스</option>
+                        <option>도가토</option>
+                        <option>토벌전</option>
+                        <option>카양겔</option>
+                        <option>아르고스</option>
+                        <option>발탄</option>
+                        <option>비아키스</option>
+                        <option>쿠크세이튼</option>
+                        <option>아브렐슈드</option>
+                        <option>일리아칸</option>
+                    </select>
+                </div>
             </div>
-            <div class="addsch_content">
-                <div class="addsch_content_row">
-                    <div class="addsch_content_item">
-                        <div>난이도</div>
-                        <select id="addsch_difficulty">
-                            <option>노말</option>
-                            <option>하드</option>
-                            <option>헬</option>
-                        </select>
-                    </div>
-                    <div class="addsch_content_item">
-                        <div>컨텐츠</div>
-                        <select id="addsch_content">
-                            <option>토벌전</option>
-                            <option>카양겔</option>
-                            <option>아르고스</option>
-                            <option>발탄</option>
-                            <option>비아키스</option>
-                            <option>쿠크세이튼</option>
-                            <option>아브렐슈드</option>
-                            <option>일리아칸</option>
-                        </select>
-                    </div>
+            <div class="addsch_content_row">
+                <div class="addsch_content_item">
+                    <div>관문</div>
+                    <select id="addsch_gate">
+                        <option>관문없음</option>
+                        <option>1~2관문</option>
+                        <option>1~3관문</option>
+                        <option>1~4관문</option>
+                        <option>1~6관문</option>
+                        <option>3~4관문</option>
+                        <option>5~6관문</option>
+                    </select>
                 </div>
-                <div class="addsch_content_row">
-                    <div class="addsch_content_item">
-                        <div>관문</div>
-                        <select id="addsch_gate">
-                            <option>관문없음</option>
-                            <option>1~2관문</option>
-                            <option>1~3관문</option>
-                            <option>1~4관문</option>
-                            <option>1~6관문</option>
-                            <option>3~4관문</option>
-                            <option>5~6관문</option>
-                        </select>
-                    </div>
-                    <div class="addsch_content_item">
-                        <div>요일</div>
-                        <select id="addsch_day">
-                            <option>수</option>
-                            <option>목</option>
-                            <option>금</option>
-                            <option>토</option>
-                            <option>일</option>
-                            <option>월</option>
-                            <option>화</option>
-                        </select>
-                    </div>
+                <div class="addsch_content_item">
+                    <div>요일</div>
+                    <select id="addsch_day">
+                        <option>수</option>
+                        <option>목</option>
+                        <option>금</option>
+                        <option>토</option>
+                        <option>일</option>
+                        <option>월</option>
+                        <option>화</option>
+                    </select>
                 </div>
-                <div class="addsch_content_row">
-                    <div class="addsch_content_item">
-                        <div>시간</div>
-                        <select id="addsch_time">
-                            <option>00:00</option>
-                            <option>01:00</option>
-                            <option>02:00</option>
-                            <option>03:00</option>
-                            <option>04:00</option>
-                            <option>05:00</option>
-                            <option>06:00</option>
-                            <option>07:00</option>
-                            <option>08:00</option>
-                            <option>09:00</option>
-                            <option>10:00</option>
-                            <option>11:00</option>
-                            <option>12:00</option>
-                            <option>13:00</option>
-                            <option>14:00</option>
-                            <option>15:00</option>
-                            <option>16:00</option>
-                            <option>17:00</option>
-                            <option>18:00</option>
-                            <option>19:00</option>
-                            <option>20:00</option>
-                            <option>21:00</option>
-                            <option>22:00</option>
-                            <option>23:00</option>
-                            <option>24:00</option>
-                        </select>
-                    </div>
-                    <div class="addsch_content_item">
-                        <div>메모</div>
-                        <input type="text" name="addsch_memo" id="addsch_memo">
-                    </div>
+            </div>
+            <div class="addsch_content_row">
+                <div class="addsch_content_item">
+                    <div>시간</div>
+                    <select id="addsch_time">
+                        <option>00:00</option>
+                        <option>01:00</option>
+                        <option>02:00</option>
+                        <option>03:00</option>
+                        <option>04:00</option>
+                        <option>05:00</option>
+                        <option>06:00</option>
+                        <option>07:00</option>
+                        <option>08:00</option>
+                        <option>09:00</option>
+                        <option>10:00</option>
+                        <option>11:00</option>
+                        <option>12:00</option>
+                        <option>13:00</option>
+                        <option>14:00</option>
+                        <option>15:00</option>
+                        <option>16:00</option>
+                        <option>17:00</option>
+                        <option>18:00</option>
+                        <option>19:00</option>
+                        <option>20:00</option>
+                        <option>21:00</option>
+                        <option>22:00</option>
+                        <option>23:00</option>
+                        <option>24:00</option>
+                    </select>
                 </div>
-                <div class="addsch_content_row">
-                    <div class="addsch_content_item">
-                        <div>고정팟</div>
-                        <input type="checkbox" name="fixedparty" id="fixedparty">
-                        <label for="fixedparty"></label>
-                        <div>반복일정</div>
-                        <input type="checkbox" name="repeatsch" id="repeatsch">
-                        <label for="repeatsch"></label>
-                    </div>
-                    <div onclick="addSch()" class="btn_insertsch">추가하기</div>
+                <div class="addsch_content_item">
+                    <div>메모</div>
+                    <input type="text" name="addsch_memo" id="addsch_memo">
                 </div>
+            </div>
+            <div class="addsch_content_row">
+                <div class="addsch_content_item">
+                    <div>고정팟</div>
+                    <input type="checkbox" name="fixedparty" id="fixedparty">
+                    <label for="fixedparty"></label>
+                    <div>반복일정</div>
+                    <input type="checkbox" name="repeatsch" id="repeatsch">
+                    <label for="repeatsch"></label>
+                </div>
+                <div onclick="addSch()" class="btn_insertsch">추가하기</div>
             </div>
         </div>
-    </div>`;
-    $("footer").append(addSchContainerHtml);
-
-    //세부일정창, 일정삭제하기 버튼 넣어주기
-    let btnDeleteSchHtml = `<div onclick="detailSchDeleteBtn(event)" class="btn_delete_sch">일정 삭제하기</div>`;
-    $(".detail_sch_content_btn_box").append(btnDeleteSchHtml);
-  }
-}
+    </div>
+</div>`;
+$("footer").append(addSchContainerHtml);
 
 //로드후, 일정들 db에서 가져와서 화면에 뿌려주기
 function printSch() {
@@ -288,26 +161,18 @@ function printSch() {
 
         //넣어줄 일정 teml_html
         temp_html = `<div onclick="schDetail(event)" class="table_schedule_content" 
-                                data-difficulty="${all_sch[i]["difficulty"]}" data-content="${all_sch[i]["content"]}"
-                                data-day="${all_sch[i]["day"]}" data-time="${all_sch[i]["time"]}" data-gate="${all_sch[i]["gate"]}"
-                                data-id="${sch_id_list[i]}" data-member="{schMember}" data-memo="${all_sch[i]["memo"]}"
-                                data-fixedparty="${all_sch[i]["fixedparty"]}" data-repeatsch="${all_sch[i]["repeatsch"]}">
-                                <div class="table_schedule_content_title">
-                                    <div class="main_title_box">
-                                        <div class="main_title"><i class="bi bi-pin-angle"></i></div>
-                                        <div class="main_title">[${all_sch[i]["difficulty"]}]</div>
-                                        <div class="main_title">${all_sch[i]["content"]}</div>
-                                        <div class="main_title">${all_sch[i]["gate"]}</div>
-                                        <div class="main_title"><i class="bi bi-chat-dots"></i></div>
-                                    </div>
-                                    <div class="sub_title_box">
-                                        <div class="sub_title">${all_sch[i]["day"]}요일</div>
-                                        <div class="sub_title">${all_sch[i]["time"]}</div>
-                                        <div class="sub_title">${all_sch[i]["member"].length}명</div>
-                                    </div>
-                                </div>
-                                <div class="table_schedule_users"></div>
-                            </div>`;
+        data-difficulty="${all_sch[i]["difficulty"]}" data-content="${all_sch[i]["content"]}"
+        data-day="${all_sch[i]["day"]}" data-time="${all_sch[i]["time"]}" data-gate="${all_sch[i]["gate"]}"
+        data-id="${sch_id_list[i]}" data-member="{schMember}" data-memo="${all_sch[i]["memo"]}"
+        data-fixedparty="${all_sch[i]["fixedparty"]}" data-repeatsch="${all_sch[i]["repeatsch"]}">
+        <div class="table_schedule_content_title">
+            <div class="table_schedule_content_title_row">${all_sch[i]["content"]}</div>
+            <div class="table_schedule_content_title_row"><span>[${all_sch[i]["difficulty"]}]</span><span>${all_sch[i]["gate"]}</span></div>
+            <div class="table_schedule_content_title_row"><span>${all_sch[i]["day"]}요일</span><span>${all_sch[i]["time"]}</span></div>
+            <div class="table_schedule_content_title_row"><span>${all_sch[i]["member"].length}명</span><span><i class="bi bi-pin-angle"></i><i class="bi bi-chat-dots"></i></span></div>
+        </div>
+        <div class="table_schedule_users"></div>
+    </div>`;
 
         //시간표별, 각 요일에 맞춰 넣어주기
         switch (all_sch[i]["day"]) {
@@ -348,6 +213,18 @@ function printSch() {
             break;
         }
 
+        // 시간표별, 각 일정 멤버 넣어주기
+        for (let j = 0; j < schMember.length; j++) {
+          let tempHtml = `
+          <div class="table_schedule_users_row">
+          <span>${schMember[j]["nickname"]}</span>
+          <span>${schMember[j]["class"]}</span>
+          </div>`;
+          $(".table_schedule_content[data-id=" + sch_id_list[i] + "]")
+            .find(".table_schedule_users")
+            .append(tempHtml);
+        }
+
         //항목별, 각 항목에 맞춰 넣어주기
         let categoryScheduleContents = $(
           `.category_schedule_row[data-difficulty='${all_sch[i]["difficulty"]}'][data-content='${all_sch[i]["content"]}']`
@@ -358,11 +235,9 @@ function printSch() {
 
         //본인이 참여한 일정의 색을 바꿔주기
         if (schMember.map((row) => row.nickname).includes(tempNickname)) {
-          $(
-            ".table_schedule_content[data-id = " +
-              sch_id_list[i] +
-              "] > .table_schedule_content_title"
-          ).css("background-color", "var(--color_dark)");
+          $(".table_schedule_content[data-id = " + sch_id_list[i] + "]")
+            .css("background-color", "var(--color-deepgray)")
+            .css("color", "white");
         }
 
         //메모의 내용이 있는 일정에 아이콘 표시
@@ -487,8 +362,8 @@ function schDetail(e) {
   } else {
     $(".detail_sch_item_repeatsch > .detail_sch_item_content").text("X");
   }
-  //참여하기 버튼 넣어주기
-  let btnJoinSchHtml = `<div onclick="detailSchJoinSch(event)" class="btn_join_sch">참여하기</div>`;
+  //일정참여 버튼 넣어주기
+  let btnJoinSchHtml = `<div onclick="detailSchJoinSch(event)" class="btn_join_sch">일정참여</div>`;
   $(".detail_sch_content_btn_box").append(btnJoinSchHtml);
 
   $.ajax({
@@ -536,16 +411,262 @@ function schDetail(e) {
         let myNickname = myInfo["nickname"];
         let myMembership = myInfo["membership"];
 
-        if (myMembership == "관리자") {
-          let btnLeaveSchHtml = `<div onclick="detailSchLeaveSch(event)" class="btn_detail_sch_delete_member">X</div>`;
+        if (
+          myMembership == "관리자" ||
+          myMembership == "길드마스터" ||
+          myMembership == "길드임원"
+        ) {
+          // 세부일정창, 일정 수정 버튼 생성
+          let btnUpadteSchHtml = `<div class="btn_update_sch">일정수정</div>`;
+          $(".detail_sch_content_btn_box").append(btnUpadteSchHtml);
+
+          // 세부일정창, 일정수정 컨테이너 생성
+          let tempHtml = `<div class="updatesch_container">
+    <div class="updatesch_box">
+        <div class="updatesch_title">
+            <h1>일정수정</h1>
+            <div class="btn_updatesch_close"><i class="bi bi-x-lg"></i></div>
+        </div>
+        <div class="updatesch_content">
+            <div class="updatesch_content_row">
+                <div class="updatesch_content_item">
+                    <div>난이도</div>
+                    <select id="updatesch_difficulty">
+                        <option>노말</option>
+                        <option>하드</option>
+                        <option>헬</option>
+                    </select>
+                </div>
+                <div class="updatesch_content_item">
+                    <div>컨텐츠</div>
+                    <select id="updatesch_content">
+                        <option>도비스</option>
+                        <option>도가토</option>
+                        <option>토벌전</option>
+                        <option>카양겔</option>
+                        <option>아르고스</option>
+                        <option>발탄</option>
+                        <option>비아키스</option>
+                        <option>쿠크세이튼</option>
+                        <option>아브렐슈드</option>
+                        <option>일리아칸</option>
+                    </select>
+                </div>
+            </div>
+            <div class="updatesch_content_row">
+                <div class="updatesch_content_item">
+                    <div>관문</div>
+                    <select id="updatesch_gate">
+                        <option>관문없음</option>
+                        <option>1~2관문</option>
+                        <option>1~3관문</option>
+                        <option>1~4관문</option>
+                        <option>1~6관문</option>
+                        <option>3~4관문</option>
+                        <option>5~6관문</option>
+                    </select>
+                </div>
+                <div class="updatesch_content_item">
+                    <div>요일</div>
+                    <select id="updatesch_day">
+                        <option>수</option>
+                        <option>목</option>
+                        <option>금</option>
+                        <option>토</option>
+                        <option>일</option>
+                        <option>월</option>
+                        <option>화</option>
+                    </select>
+                </div>
+            </div>
+            <div class="updatesch_content_row">
+                <div class="updatesch_content_item">
+                    <div>시간</div>
+                    <select id="updatesch_time">
+                        <option>00:00</option>
+                        <option>01:00</option>
+                        <option>02:00</option>
+                        <option>03:00</option>
+                        <option>04:00</option>
+                        <option>05:00</option>
+                        <option>06:00</option>
+                        <option>07:00</option>
+                        <option>08:00</option>
+                        <option>09:00</option>
+                        <option>10:00</option>
+                        <option>11:00</option>
+                        <option>12:00</option>
+                        <option>13:00</option>
+                        <option>14:00</option>
+                        <option>15:00</option>
+                        <option>16:00</option>
+                        <option>17:00</option>
+                        <option>18:00</option>
+                        <option>19:00</option>
+                        <option>20:00</option>
+                        <option>21:00</option>
+                        <option>22:00</option>
+                        <option>23:00</option>
+                        <option>24:00</option>
+                    </select>
+                </div>
+                <div class="updatesch_content_item">
+                    <div>메모</div>
+                    <input type="text" name="updatesch_memo" id="updatesch_memo">
+                </div>
+            </div>
+            <div class="updatesch_content_row">
+                    <div class="updatesch_content_item">
+                        <div>고정팟</div>
+                        <input type="checkbox" name="updatesch_fixedparty" id="updatesch_fixedparty">
+                        <label for="updatesch_fixedparty"></label>
+                        <div>반복일정</div>
+                        <input type="checkbox" name="updaterepeatsch" id="updatesch_repeatsch">
+                        <label for="updatesch_repeatsch"></label>
+                    </div>
+                    <div  class="btn_updatesch">수정하기</div>
+                </div>
+        </div>
+    </div>
+          </div>`;
+          $("footer").append(tempHtml);
+
+          //세부 일정 창, 일정 삭제 버튼 생성
+          let btnDeleteSchHtml = `<div onclick="detailSchDeleteBtn(event)" class="btn_delete_sch">일정삭제</div>`;
+          $(".detail_sch_content_btn_box").append(btnDeleteSchHtml);
+
+          // 세부 일정 창, 일정 탈퇴 버튼 생성
+          let btnLeaveSchHtml = `<div onclick="detailSchLeaveSch(event)" class="btn_detail_sch_delete_member"><i class="bi bi-x-lg"></i></div>`;
           $(".detail_sch_member_row_content").append(btnLeaveSchHtml);
-        } else if (myMembership == "승인회원") {
+        } else if (myMembership == "길드원") {
+          // author가 본인이라면
+          if (sch["author"] == myNickname) {
+            // 세부 일정 창, 일정 수정 버튼 생성
+            let btnUpadteSchHtml = `<div class="btn_update_sch">일정수정</div>`;
+            $(".detail_sch_content_btn_box").append(btnUpadteSchHtml);
+
+            // 세부 일정 창, 일정 수정 컨테이너 생성
+            let tempHtml = `<div class="updatesch_container">
+    <div class="updatesch_box">
+        <div class="updatesch_title">
+            <h1>일정수정</h1>
+            <div class="btn_updatesch_close"><i class="bi bi-x-lg"></i></div>
+        </div>
+        <div class="updatesch_content">
+            <div class="updatesch_content_row">
+                <div class="updatesch_content_item">
+                    <div>난이도</div>
+                    <select id="updatesch_difficulty">
+                        <option>노말</option>
+                        <option>하드</option>
+                        <option>헬</option>
+                    </select>
+                </div>
+                <div class="updatesch_content_item">
+                    <div>컨텐츠</div>
+                    <select id="updatesch_content">
+                        <option>도비스</option>
+                        <option>도가토</option>
+                        <option>토벌전</option>
+                        <option>카양겔</option>
+                        <option>아르고스</option>
+                        <option>발탄</option>
+                        <option>비아키스</option>
+                        <option>쿠크세이튼</option>
+                        <option>아브렐슈드</option>
+                        <option>일리아칸</option>
+                    </select>
+                </div>
+            </div>
+            <div class="updatesch_content_row">
+                <div class="updatesch_content_item">
+                    <div>관문</div>
+                    <select id="updatesch_gate">
+                        <option>관문없음</option>
+                        <option>1~2관문</option>
+                        <option>1~3관문</option>
+                        <option>1~4관문</option>
+                        <option>1~6관문</option>
+                        <option>3~4관문</option>
+                        <option>5~6관문</option>
+                    </select>
+                </div>
+                <div class="updatesch_content_item">
+                    <div>요일</div>
+                    <select id="updatesch_day">
+                        <option>수</option>
+                        <option>목</option>
+                        <option>금</option>
+                        <option>토</option>
+                        <option>일</option>
+                        <option>월</option>
+                        <option>화</option>
+                    </select>
+                </div>
+            </div>
+            <div class="updatesch_content_row">
+                <div class="updatesch_content_item">
+                    <div>시간</div>
+                    <select id="updatesch_time">
+                        <option>00:00</option>
+                        <option>01:00</option>
+                        <option>02:00</option>
+                        <option>03:00</option>
+                        <option>04:00</option>
+                        <option>05:00</option>
+                        <option>06:00</option>
+                        <option>07:00</option>
+                        <option>08:00</option>
+                        <option>09:00</option>
+                        <option>10:00</option>
+                        <option>11:00</option>
+                        <option>12:00</option>
+                        <option>13:00</option>
+                        <option>14:00</option>
+                        <option>15:00</option>
+                        <option>16:00</option>
+                        <option>17:00</option>
+                        <option>18:00</option>
+                        <option>19:00</option>
+                        <option>20:00</option>
+                        <option>21:00</option>
+                        <option>22:00</option>
+                        <option>23:00</option>
+                        <option>24:00</option>
+                    </select>
+                </div>
+                <div class="updatesch_content_item">
+                    <div>메모</div>
+                    <input type="text" name="updatesch_memo" id="updatesch_memo">
+                </div>
+            </div>
+            <div class="updatesch_content_row">
+                    <div class="updatesch_content_item">
+                        <div>고정팟</div>
+                        <input type="checkbox" name="updatesch_fixedparty" id="updatesch_fixedparty">
+                        <label for="updatesch_fixedparty"></label>
+                        <div>반복일정</div>
+                        <input type="checkbox" name="updaterepeatsch" id="updatesch_repeatsch">
+                        <label for="updatesch_repeatsch"></label>
+                    </div>
+                    <div  class="btn_updatesch">수정하기</div>
+                </div>
+        </div>
+    </div>
+            </div>`;
+            $("footer").append(tempHtml);
+
+            // 세부 일정 창, 일정 삭제 버튼 생성
+            let btnDeleteSchHtml = `<div onclick="detailSchDeleteBtn(event)" class="btn_delete_sch">일정삭제</div>`;
+            $(".detail_sch_content_btn_box").append(btnDeleteSchHtml);
+          }
+          // 본인 참가항목옆에 탈퇴 버튼 생성
           let btnDeleteMySch = $(
             ".detail_sch_member_content:nth-child(1)"
           ).filter(function () {
             return $(this).text() === myNickname;
           });
-          let btnLeaveSchHtml = `<div onclick="detailSchLeaveSch(event)" class="btn_detail_sch_delete_member">X</div>`;
+          let btnLeaveSchHtml = `<div onclick="detailSchLeaveSch(event)" class="btn_detail_sch_delete_member"><i class="bi bi-x-lg"></i></div>`;
           btnDeleteMySch
             .parent(".detail_sch_member_row_content")
             .append(btnLeaveSchHtml);
@@ -567,6 +688,9 @@ function schDetail(e) {
 //세부 일정 보기창, 창닫기 버튼
 function detailSchCloseBtn() {
   $("div.btn_join_sch").remove();
+  $(".btn_update_sch").remove();
+  $(".updatesch_container").remove();
+  $(".btn_delete_sch").remove();
   $(".detail_sch_member_row_content").remove();
   $(".detail_sch_container").css("display", "none");
 }
@@ -608,8 +732,121 @@ function detailSchDeleteBtn(e) {
     }
   });
 }
+// 세부 일정 보기 창, 일정 수정 창 열기
+$(document).on("click", ".btn_update_sch", function (event) {
+  let schId = $(event.currentTarget)
+    .closest(".detail_sch_container")
+    .attr("data-id");
+  let schDifficulty = $(
+    ".detail_sch_item_difficulty .detail_sch_item_content"
+  ).text();
+  let schContent = $(
+    ".detail_sch_item_contentname .detail_sch_item_content"
+  ).text();
+  let schGate = $(".detail_sch_item_gate .detail_sch_item_content").text();
+  let schDay = $(".detail_sch_item_day .detail_sch_item_content").text();
+  let schTime = $(".detail_sch_item_time .detail_sch_item_content").text();
+  let schMemo = $(".detail_sch_item_memo .detail_sch_item_content").text();
+  let schFixed = $(
+    ".detail_sch_item_fixedparty .detail_sch_item_content"
+  ).text();
+  let schRepeat = $(
+    ".detail_sch_item_repeatsch .detail_sch_item_content"
+  ).text();
+  $(".updatesch_container").attr("data-id", schId);
+  $("#updatesch_difficulty").val(schDifficulty).prop("selected", true);
+  $("#updatesch_content").val(schContent).prop("selected", true);
+  $("#updatesch_gate").val(schGate).prop("selected", true);
+  $("#updatesch_day").val(schDay).prop("selected", true);
+  $("#updatesch_time").val(schTime).prop("selected", true);
+  $("#updatesch_memo").val(schMemo).prop("selected", true);
+  if (schFixed == "O") {
+    $("#updatesch_fixedparty").prop("checked", true);
+  } else {
+    $("#updatesch_fixedparty").prop("checked", false);
+  }
+  if (schRepeat == "O") {
+    $("#updatesch_repeatsch").prop("checked", true);
+  } else {
+    $("#updatesch_repeatsch").prop("checked", false);
+  }
+  $(".updatesch_container").css("display", "flex");
+});
+// 일정수정 창, 수정하기 기능
+$(document).on("click", ".btn_updatesch", function () {
+  let schId = $(".updatesch_container").attr("data-id");
+  let schDifficulty = $("#updatesch_difficulty").val();
+  let schContent = $("#updatesch_content").val();
+  let schGate = $("#updatesch_gate").val();
+  let schDay = $("#updatesch_day").val();
+  let schTime = $("#updatesch_time").val();
+  let schMemo = $("#updatesch_memo").val();
+  let schFixed = $("#updatesch_fixedparty").is(":checked");
+  let schRepeat = $("#updatesch_repeatsch").is(":checked");
+  $.ajax({
+    type: "POST",
+    url: "/nextweeksch/api_updatesch/",
+    dataType: "json",
+    data: {
+      schidgive: schId,
+      schdifficultygive: schDifficulty,
+      schcontentgive: schContent,
+      schgategive: schGate,
+      schdaygive: schDay,
+      schtimegive: schTime,
+      schmemogive: schMemo,
+      schfixedgive: schFixed,
+      schrepeatgive: schRepeat,
+    },
+    success: function (response) {
+      if (response["result"]) {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      } else {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "error",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+});
 
-//세부 일정 보기창, 참여하기 버튼 클릭, 참여 직업 선택 기능
+// 세부 일정 보기 창, 일정 수정 창 닫기
+$(document).on("click", ".btn_updatesch_close", function () {
+  $(".updatesch_container").css("display", "none");
+});
+// 일정 mouseenter시, 일정 참여 멤버 display flex
+$(document).on("mouseenter", ".table_schedule_content", function (event) {
+  $(event.currentTarget)
+    .find(".table_schedule_users")
+    .css("display", "flex")
+    .animate(
+      {
+        opacity: 1,
+      },
+      300
+    );
+});
+// 일정 mouseover시, 일정 참여 멤버 display:none
+$(document).on("mouseleave", ".table_schedule_content", function (event) {
+  $(event.currentTarget)
+    .find(".table_schedule_users")
+    .css("opacity", "0")
+    .css("display", "none");
+});
+
+//세부 일정 보기창, 일정참여 버튼 클릭, 참여 직업 선택 기능
 function detailSchJoinSch(e) {
   let user_class1 = $(".mainlogo").attr("data-class1");
   let user_class2 = $(".mainlogo").attr("data-class2");
@@ -632,7 +869,7 @@ function detailSchJoinSch(e) {
 }
 
 //참여 직업 선택 창, 일정 참여 버튼 클릭시
-//일정 참여하기 기능
+//일정 참여 기능
 function detailSchJoinSchConfirm(e) {
   let sch_id = $(".detail_sch_container").attr("data-id");
   let user_nickname = $(".mainlogo").attr("data-nickname");
@@ -767,3 +1004,28 @@ function toggleView() {
     );
   }
 }
+
+// 화면크기에 맞게 설정
+// window size가 작아지면 메뉴바 체인지
+$(document).on("click", ".bi-list", function () {
+  if ($("#header_list_container").css("display") == "none") {
+    $("#header_list_container").css("display", "flex");
+  } else {
+    $("#header_list_container").css("display", "none");
+  }
+});
+$(window).resize(function () {
+  if (window.innerWidth > 680) {
+    $("#header_list_container").css("display", "flex");
+  } else {
+    $("#header_list_container").css("display", "none");
+  }
+});
+// window size가 작아지면 공지버튼 없애기
+$(window).resize(function () {
+  if (window.innerWidth <= 570) {
+    $(".btn_announcement").css("display", "none");
+  } else {
+    $(".btn_announcement").css("display", "flex");
+  }
+});

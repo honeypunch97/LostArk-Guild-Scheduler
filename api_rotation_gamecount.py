@@ -15,12 +15,11 @@ client = MongoClient(SECRET_DATA['CLIENT_EC2'], SECRET_DATA['PORT_NUMBER'])
 
 db = client.dblags
 
-# 로그 저장 함수
-def save_log(log_nickname, log_title, log_content):
-    time = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime('%Y년 %m월 %d일 %H시 %M분 %S초')
-    logdoc = {'time': time, 'nickname': log_nickname, 'title': log_title, 'content': log_content}
-    print(logdoc)
-    db.logdb.insert_one(logdoc)
+# 시스템로그 저장 함수
+def save_log(log_content):
+    time = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime('%Y년 %m월 %d일 %H시 %M분')
+    logdoc = {'category':'syslog','content':log_content,'time':time,'nickname':'SYSTEM'}
+    db.sys.insert_one(logdoc)
 
 
 # 매일 00시마다 실행 with crontab 0 0 * * *
@@ -28,8 +27,10 @@ def save_log(log_nickname, log_title, log_content):
 def api_rotation_gamecount():
     db.users.update_many({}, {'$set' : {'abilitystonegamecount': 0, 
                                         'findninavegamecount':0,
-                                        'papunikafishinggamecount':0}})
-    save_log('SYSTEM', '게임 횟수 초기화', '게임 횟수 초기화 작동')
+                                        'papunikafishinggamecount':0,
+                                        'pointroulettegamecount':0,
+                                        }})
+    save_log('게임 횟수 초기화 작동')
     return 0
 
 api_rotation_gamecount()

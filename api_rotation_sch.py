@@ -15,16 +15,13 @@ client = MongoClient(SECRET_DATA['CLIENT_EC2'], SECRET_DATA['PORT_NUMBER'])
 
 db = client.dblags
 
-# 로그 저장 함수
-def save_log(log_nickname, log_title, log_content):
-    time = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime('%Y년 %m월 %d일 %H시 %M분 %S초')
-    logdoc = {'time': time, 'nickname': log_nickname, 'title': log_title, 'content': log_content}
-    print(logdoc)
-    db.logdb.insert_one(logdoc)
-
+# 시스템로그 저장 함수
+def save_log(log_content):
+    time = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).strftime('%Y년 %m월 %d일 %H시 %M분')
+    logdoc = {'category':'syslog','content':log_content,'time':time,'nickname':'SYSTEM'}
+    db.sys.insert_one(logdoc)
 
 # 수요일 06시마다 실행 with crontab 0 6 * * 3
-
 def api_rotation_sch():
     # DB_thisweeksch의 내용 초기화
     db.thisweeksch.delete_many({})
@@ -36,6 +33,8 @@ def api_rotation_sch():
     for next_sch in next_sch_list:
         if next_sch['fixedparty'] == 'true':
             doc = {
+                'guild': next_sch['guild'],
+                'author': next_sch['author'],
                 'difficulty': next_sch['difficulty'],
                 'content': next_sch['content'],
                 'gate': next_sch['gate'],
@@ -50,6 +49,8 @@ def api_rotation_sch():
             temp_sch_list.append(doc)
         elif next_sch['repeatsch'] == 'true':
             doc = {
+                'guild': next_sch['guild'],
+                'author': next_sch['author'],
                 'difficulty': next_sch['difficulty'],
                 'content': next_sch['content'],
                 'gate': next_sch['gate'],
@@ -65,6 +66,8 @@ def api_rotation_sch():
     # DB_nextweeksch의 내용을 가져와, DB_thisweeksch에 넣어주기
     for next_sch in next_sch_list:
         doc = {
+            'guild': next_sch['guild'],
+            'author': next_sch['author'],
             'difficulty': next_sch['difficulty'],
             'content': next_sch['content'],
             'gate': next_sch['gate'],
@@ -83,7 +86,7 @@ def api_rotation_sch():
     # DB_nextweeksch에 temp_sch_list의  값을 넣어주기
     for temp_sch in temp_sch_list:
         db.nextweeksch.insert_one(temp_sch)
-    save_log('SYSTEM', '일정 로테이션', '일정 로테이션 작동')
+    save_log('일정 로테이션 작동')
     return 0
 
 api_rotation_sch()

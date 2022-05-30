@@ -63,7 +63,7 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
     />
 
-    <title>LostArkGuildScheduler</title>
+    <title>로아길스</title>
   </head>
   <body>
     <div id="mypage_container">
@@ -87,11 +87,8 @@
         data-class6="{{user_class6}}"
       >
         <div class="myinfo_title">
-          <div></div>
           <h1>내 정보 수정</h1>
-          <div onclick="changeUserInfo()" class="btn_change_myinfo">
-            수정하기
-          </div>
+          <div onclick="changeUserInfo()" class="btn_change_myinfo">수정</div>
         </div>
         <div class="myinfo_row">
           <div class="myinfo_item">
@@ -295,6 +292,19 @@
                 <option>도화가</option>
               </select>
             </div>
+          </div>
+        </div>
+      </div>
+      <div id="guild_container">
+        <div id="guild_title">내 길드 정보</div>
+        <div id="guild_content">
+          <div class="guild_item guild_item_guildname">
+            <div class="guild_item_title">가입길드</div>
+            <div class="guild_item_content"></div>
+          </div>
+          <div class="guild_item guild_item_guildmember">
+            <div class="guild_item_title">길드원</div>
+            <div class="guild_item_content"></div>
           </div>
         </div>
       </div>

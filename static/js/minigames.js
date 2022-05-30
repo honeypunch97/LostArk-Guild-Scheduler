@@ -1,19 +1,8 @@
 $(document).ready(function () {
-  userCheck();
   printPointRanking();
   printGameCount();
+  printBettingGame();
 });
-//로그인의 유무와 로그인한 정보의 권한을 체크, 권한별 컨텐츠 표시(일정추가)
-function userCheck() {
-  let myMembership = $(".mainlogo").attr("data-membership");
-  if (myMembership == "비로그인") {
-    alert("로그인이 필요합니다.");
-    location.href = "/login/";
-  } else if (myMembership == "비승인회원") {
-    location.href = "/needallow/";
-  } else if (myMembership == "관리자") {
-  }
-}
 
 //포인트 랭킹 가져와서 출력해주기, 내 포인트 출력, -10만 포인트 보다 작으면 출입금지
 function printPointRanking() {
@@ -36,19 +25,21 @@ function printPointRanking() {
       $(".myinfo_row:nth-child(2) > .myinfo_row_content:nth-child(2)").text(
         response["mypoint"]
       );
-
+      // 포인트 랭킹
       let TopRankingList = response["top_ranking_list"];
       for (let i = 0; i < TopRankingList.length; i++) {
-        $(
-          ".point_ranking_contnet > .point_ranking_row:nth-child(" +
-            (i + 1) +
-            ") > .point_ranking_row_nickname"
-        ).text(TopRankingList[i]["nickname"]);
-        $(
-          ".point_ranking_contnet > .point_ranking_row:nth-child(" +
-            (i + 1) +
-            ") > .point_ranking_row_point"
-        ).text(TopRankingList[i]["point"]);
+        let tempHtml = `
+        <div class="point_ranking_row">
+              <div class="point_ranking_row_rank">${i + 1}</div>
+              <div class="point_ranking_row_nickname">${
+                TopRankingList[i]["nickname"]
+              }</div>
+              <div class="point_ranking_row_point">${
+                TopRankingList[i]["point"]
+              }</div>
+            </div>
+        `;
+        $(".point_ranking_contnet").append(tempHtml);
       }
     },
   });
@@ -72,6 +63,12 @@ function printGameCount() {
         $(".papunikafishinggame_titlebox_count").text(
           response["papunikafishinggamecount"] + "/10"
         );
+        $("#pointroulettegame_titlebox_count").text(
+          response["pointroulettegamecount"] + "/99"
+        );
+        $("#bonusroulettegame_titlebox_count").text(
+          response["bonusroulettegamecount"] + "/" + response["schjoincount"]
+        );
       } else {
         Swal.fire({
           title: response["title"],
@@ -80,6 +77,112 @@ function printGameCount() {
           confirmButtonColor: "#5b7d97",
         }).then((result) => {
           location.reload();
+        });
+      }
+    },
+  });
+}
+
+// 베팅게임 가져오기
+function printBettingGame() {
+  $.ajax({
+    type: "GET",
+    url: "/minigames/api_printbettinggame/",
+    dataType: "json",
+    data: {},
+    success: function (response) {
+      let user = response["user"];
+      let gameIdList = response["game_id_list"];
+      let allGame = response["all_game"];
+      if (response["result"] == "SUCCESS") {
+        for (let i = 0; i < gameIdList.length; i++) {
+          let tempHtml = `<div class="bettinggame_item" data-id="${gameIdList[i]}" data-lock="${allGame[i]["lock"]}">
+                            <div class="bettinggame_item_yes">
+                              <div class="bettinggame_item_yes_title">YES</div>
+                              <div class="bettinggame_item_yes_content"></div>
+                            </div>
+                            <div class="bettinggame_item_title_container">
+                              <div class="bettinggame_item_title">"${allGame[i]["title"]}"</div>
+                              <div class="bettinggame_item_row">
+                                <div class="bettinggame_item_author">${allGame[i]["author"]}</div>
+                                <div class="bettinggame_item_point">${allGame[i]["point"]}포인트</div>
+                              </div>
+                              <div class="bettinggame_item_row"></div>
+                            </div>
+                            <div class="bettinggame_item_no">
+                              <div class="bettinggame_item_no_title">NO</div>
+                              <div class="bettinggame_item_no_content">
+                              </div>
+                            </div>
+                          </div>`;
+          $(".bettinggame_contentbox").append(tempHtml);
+
+          // 본인이 추가한 글이면 해당글에 대한 권한 부여
+          if (user["nickname"] == allGame[i]["author"]) {
+            let tempHtml = `<div class="bettinggame_btn_done_yes">정산'</div>
+            <div class="bettinggame_btn_delete">삭제</div>
+            <div class="bettinggame_btn_lock">잠금</div>
+            <div class="bettinggame_btn_done_no">정산</div>`;
+            $(
+              ".bettinggame_item[data-id=" +
+                gameIdList[i] +
+                "] .bettinggame_item_row:last-child"
+            ).append(tempHtml);
+          }
+        }
+        // 각 게임 'YES', 'NO' 참여 인원 넣어주기
+        for (let i = 0; i < gameIdList.length; i++) {
+          // 'YES'에 참여한 인원 넣어주기
+          for (let j = 0; j < allGame[i]["yesmember"].length; j++) {
+            let tempHtml = `<p>${allGame[i]["yesmember"][j]}</p>`;
+            $(
+              ".bettinggame_item[data-id=" +
+                gameIdList[i] +
+                "] .bettinggame_item_yes_content"
+            ).append(tempHtml);
+          }
+          // 'NO'에 참여한 인원 넣어주기
+          for (let j = 0; j < allGame[i]["nomember"].length; j++) {
+            let tempHtml = `<p>${allGame[i]["nomember"][j]}</p>`;
+            $(
+              ".bettinggame_item[data-id=" +
+                gameIdList[i] +
+                "] .bettinggame_item_no_content"
+            ).append(tempHtml);
+          }
+        }
+        // 잠금설정된 게임의 세팅 변경
+        $(".bettinggame_item[data-lock=true]").css("opacity", "0.4");
+        $(".bettinggame_item[data-lock=true] .bettinggame_item_yes").css(
+          "cursor",
+          "default"
+        );
+
+        $(".bettinggame_item[data-lock=true] .bettinggame_item_no").css(
+          "cursor",
+          "default"
+        );
+        // 관리자 권한에게 모든 버튼 추가
+        if (
+          user["membership"] == "관리자" ||
+          user["membership"] == "길드마스터" ||
+          user["membership"] == "길드임원"
+        ) {
+          $(".bettinggame_item_row:last-child").empty();
+          let tempHtml = `<div class="bettinggame_btn_done_yes">정산</div>
+            <div class="bettinggame_btn_delete">삭제</div>
+            <div class="bettinggame_btn_lock">잠금</div>
+            <div class="bettinggame_btn_done_no">정산</div>`;
+          $(".bettinggame_item_row:last-child").append(tempHtml);
+        }
+      } else {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "error",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.href("/");
         });
       }
     },
@@ -383,7 +486,7 @@ $(".abilitystonegame_start_btn").click(function () {
                       <div id="abilitystonegame_probability">75%</div>
                     </div>
                     <div class="abilitystonegame_row">
-                      <div class="abilitystonegame_name">각인A</div>
+                      <div class="abilitystonegame_name">A</div>
                       <div class="diamond"></div>
                       <div class="diamond"></div>
                       <div class="diamond"></div>
@@ -398,7 +501,7 @@ $(".abilitystonegame_start_btn").click(function () {
                       <div class="abilitystonegame_btn_doit">세공</div>
                     </div>
                     <div class="abilitystonegame_row">
-                      <div class="abilitystonegame_name">각인B</div>
+                      <div class="abilitystonegame_name">B</div>
                       <div class="diamond"></div>
                       <div class="diamond"></div>
                       <div class="diamond"></div>
@@ -413,7 +516,7 @@ $(".abilitystonegame_start_btn").click(function () {
                       <div class="abilitystonegame_btn_doit">세공</div>
                     </div>
                     <div class="abilitystonegame_row">
-                      <div class="abilitystonegame_name">감소각인</div>
+                      <div class="abilitystonegame_name">감소</div>
                       <div class="diamond"></div>
                       <div class="diamond"></div>
                       <div class="diamond"></div>
@@ -637,61 +740,71 @@ $(document).on(
 );
 // 어빌리티 스톤 게임 완료기능
 $(document).on("click", ".abilitystonegame_btn_done", function () {
-  let resultPoint =
-    500 *
-    (parseInt(abilitystoneASuccessNumber) +
-      parseInt(abilitystoneBSuccessNumber) -
-      parseInt(abilitystoneCSuccessNumber));
-  Swal.fire({
-    title: "게임 결과",
-    text:
-      "성공: " +
-      abilitystoneASuccessNumber +
-      "+" +
-      abilitystoneBSuccessNumber +
-      " 실패: " +
-      abilitystoneCSuccessNumber +
-      " 포인트획득 = " +
-      resultPoint,
-    icon: "success",
-    confirmButtonColor: "#5b7d97",
-  }).then((result) => {
-    $.ajax({
-      type: "POST",
-      url: "/minigames/api_gamedone/",
-      dataType: "json",
-      data: {
-        result_point_give: resultPoint,
-      },
-      success: function (response) {
-        if (response["result"] == "SUCCESS") {
-          Swal.fire({
-            title: response["title"],
-            text: response["msg"],
-            icon: "success",
-            confirmButtonColor: "#5b7d97",
-          }).then((result) => {
-            location.reload();
-          });
-        }
-      },
+  if (abilitystoneA == 11 && abilitystoneB == 11 && abilitystoneC == 11) {
+    let resultPoint =
+      500 *
+      (parseInt(abilitystoneASuccessNumber) +
+        parseInt(abilitystoneBSuccessNumber) -
+        parseInt(abilitystoneCSuccessNumber));
+    Swal.fire({
+      title: "게임 결과",
+      text:
+        "성공: " +
+        abilitystoneASuccessNumber +
+        "+" +
+        abilitystoneBSuccessNumber +
+        " 실패: " +
+        abilitystoneCSuccessNumber +
+        " 포인트획득 = " +
+        resultPoint,
+      icon: "success",
+      confirmButtonColor: "#5b7d97",
+    }).then((result) => {
+      $.ajax({
+        type: "POST",
+        url: "/minigames/api_gamedone/",
+        dataType: "json",
+        data: {
+          result_point_give: resultPoint,
+        },
+        success: function (response) {
+          if (response["result"] == "SUCCESS") {
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "success",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.reload();
+            });
+          }
+        },
+      });
     });
-  });
+  } else {
+    Swal.fire({
+      title: "완료 실패",
+      text: "남아있는 각인횟수가 있습니다.",
+      icon: "error",
+      confirmButtonColor: "#5b7d97",
+    });
+  }
 });
 
 // 니나브 찾기 게임
-const findninavegameRandomNumber = Math.floor(Math.random() * 4) + 1;
+const findninavegameRandomNumber = Math.floor(Math.random() * 5) + 1;
+
 $(".findninavegame_start_btn").click(function () {
   let decreasePoint = 5000;
   decreasePoints(decreasePoint, "findninavegamecount", 99);
   $(".findninavegame_start_container").hide();
   let tempHtml = `<div class="findninavegame_contentbox">
-                  <div class="findninavegame_background">
-                    <div id="findninavegame_card1" class="findninavegame_card"></div>
-                    <div id="findninavegame_card2" class="findninavegame_card"></div>
-                    <div id="findninavegame_card3" class="findninavegame_card"></div>
-                    <div id="findninavegame_card4" class="findninavegame_card"></div>
-                    <div id="findninavegame_card5" class="findninavegame_card"></div>
+                    <div class="findninavegame_background">
+                    <img id="findninavegame_card1" class="findninavegame_card" src="../static/img/findninavegame_backofcard.png" alt="">
+                    <img id="findninavegame_card2" class="findninavegame_card" src="../static/img/findninavegame_backofcard.png" alt="">
+                    <img id="findninavegame_card3" class="findninavegame_card" src="../static/img/findninavegame_backofcard.png" alt="">
+                    <img id="findninavegame_card4" class="findninavegame_card" src="../static/img/findninavegame_backofcard.png" alt="">
+                    <img id="findninavegame_card5" class="findninavegame_card" src="../static/img/findninavegame_backofcard.png" alt="">
                     <div class="findninavegame_btn_done">완료</div>
                   </div>
                 </div>`;
@@ -702,22 +815,19 @@ let selectedCard = "";
 $(document).on("click", ".findninavegame_card", function (event) {
   $(document).off("click", ".findninavegame_card");
   let resultPoint = 0;
-  $(".findninavegame_card").css(
-    "background-image",
-    "url('../static/img/findninavegame_koukusaton.png')"
+  $(".findninavegame_card").attr(
+    "src",
+    "../static/img/findninavegame_koukusaton.png"
   );
-  $("#findninavegame_card" + findninavegameRandomNumber).css(
-    "background-image",
-    "url('../static/img/findninavegame_ninave.png')"
+  $("#findninavegame_card" + findninavegameRandomNumber).attr(
+    "src",
+    "../static/img/findninavegame_ninave.png"
   );
-  selectedCard = $(event.currentTarget).attr("style");
+  selectedCard = $(event.currentTarget).attr("id");
 });
 // 니나브 찾기 게임 완료 버튼 클릭
 $(document).on("click", ".findninavegame_btn_done", function () {
-  if (
-    selectedCard ==
-    'background-image: url("../static/img/findninavegame_ninave.png");'
-  ) {
+  if (selectedCard == "findninavegame_card" + findninavegameRandomNumber) {
     resultPoint = 20000;
     Swal.fire({
       title: "니나브를 찾았습니다!",
@@ -799,7 +909,7 @@ $(".papunikafishinggame_start_btn").click(function () {
 // '뭔가가 걸려들었다..!'클릭시 게임 진행
 let resultPoint = 0;
 $(document).on("click", ".papunikafishinggame_btn_start", function () {
-  // 낚싯 보상 애니메이션
+  // 파푸니카 낚시 게임 보상 애니메이션
   $(".papunikafishinggame_item").animate(
     {
       opacity: 1,
@@ -872,4 +982,455 @@ $(document).on("click", ".papunikafishinggame_btn_done", function () {
       }
     },
   });
+});
+
+// 포인트 룰렛 게임 시작
+$("#pointroulettegame_start_btn").click(function () {
+  let decreasePoint = 5000;
+  decreasePoints(decreasePoint, "pointroulettegamecount", 99);
+  $("#pointroulettegame_start_container").hide();
+  const tempHtml = `<div id="pointroulettegame_contentbox">
+                      <div id="pointroulettegame_background">
+                      <div id="pointroulettegame_roulette"></div>
+                      <div id="pointroulettegame_arrow"></div>
+                      </div>
+                      <div id="pointroulettegame_btn_start">시작</div>
+                    </div>`;
+  $("#pointroulettegame_container").append(tempHtml);
+});
+
+// 포인트 룰렛 게임, 룰렛 동작
+const pointroulettegameRotate = () => {
+  const pointroulettegameRandomNumber = Math.floor(Math.random() * 100) + 1;
+  let pointroulettegameDeg = 0;
+  if (pointroulettegameRandomNumber == 100) {
+    pointroulettegameDeg = 180;
+  } else if (pointroulettegameRandomNumber >= 98) {
+    pointroulettegameDeg = 60;
+  } else if (pointroulettegameRandomNumber >= 95) {
+    pointroulettegameDeg = 300;
+  } else if (pointroulettegameRandomNumber >= 65) {
+    pointroulettegameDeg = 240;
+  } else if (pointroulettegameRandomNumber >= 15) {
+    pointroulettegameDeg = 120;
+  } else {
+    pointroulettegameDeg = 360;
+  }
+  const roulette = $("#pointroulettegame_roulette");
+  let num = 0;
+  let pointroulettegameAnimation = setInterval(() => {
+    num++;
+    roulette.css("transform", "rotate(" + 360 * num + "deg)");
+    if (num === 50) {
+      clearInterval(pointroulettegameAnimation);
+      roulette.css("transform", "rotate(" + pointroulettegameDeg + "deg)");
+    }
+  }, 50);
+  return pointroulettegameDeg;
+};
+// 포인트 룰렛 게임, 룰렛 시작
+$(document).on("click", "#pointroulettegame_btn_start", function () {
+  $("#pointroulettegame_btn_start").remove();
+  let pointroulettegameDeg = pointroulettegameRotate();
+  setTimeout(() => {
+    let resultPoint;
+    switch (pointroulettegameDeg) {
+      case 360:
+        resultPoint = 1;
+        break;
+      case 120:
+        resultPoint = 1000;
+        break;
+      case 240:
+        resultPoint = 5000;
+        break;
+      case 300:
+        resultPoint = 10000;
+        break;
+      case 60:
+        resultPoint = 50000;
+        break;
+      case 180:
+        resultPoint = 100000;
+    }
+    Swal.fire({
+      title: "축하드립니다!",
+      text: resultPoint + "포인트를 적립합니다.",
+      icon: "success",
+      confirmButtonColor: "#5b7d97",
+    }).then((result) => {
+      $.ajax({
+        type: "POST",
+        url: "/minigames/api_gamedone/",
+        dataType: "json",
+        data: {
+          result_point_give: resultPoint,
+        },
+        success: function (response) {
+          if (response["result"] == "SUCCESS") {
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "success",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.reload();
+            });
+          }
+        },
+      });
+    });
+  }, 5000);
+});
+
+// 보너스 룰렛 게임 시작
+$("#bonusroulettegame_start_btn").click(function () {
+  let decreasePoint = 0;
+  let gamecount = 0;
+  $.ajax({
+    type: "GET",
+    url: "/minigames/api_bonusroulettegamecount/",
+    dataType: "json",
+    data: {},
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        gamecount = response["gamecount"];
+        decreasePoints(decreasePoint, "bonusroulettegamecount", gamecount);
+      } else {
+        Swal.fire({
+          title: "게임시작 실패",
+          text: "일정 참여 횟수 부족",
+          icon: "error",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+  $("#bonusroulettegame_start_container").hide();
+  const tempHtml = `<div id="bonusroulettegame_contentbox">
+                      <div id="bonusroulettegame_background">
+                      <div id="bonusroulettegame_roulette"></div>
+                      <div id="bonusroulettegame_arrow"></div>
+                      </div>
+                      <div id="bonusroulettegame_btn_start">시작</div>
+                    </div>`;
+  $("#bonusroulettegame_container").append(tempHtml);
+});
+
+// 보너스 룰렛 게임, 룰렛 동작
+const bonusroulettegameRotate = () => {
+  const bonusroulettegameRandomNumber = Math.floor(Math.random() * 100) + 1;
+  let bonusroulettegameDeg = 0;
+  if (bonusroulettegameRandomNumber >= 99) {
+    bonusroulettegameDeg = 180;
+  } else if (bonusroulettegameRandomNumber >= 95) {
+    bonusroulettegameDeg = 60;
+  } else if (bonusroulettegameRandomNumber >= 89) {
+    bonusroulettegameDeg = 300;
+  } else if (bonusroulettegameRandomNumber >= 59) {
+    bonusroulettegameDeg = 240;
+  } else if (bonusroulettegameRandomNumber >= 9) {
+    bonusroulettegameDeg = 120;
+  } else {
+    bonusroulettegameDeg = 360;
+  }
+  const roulette = $("#bonusroulettegame_roulette");
+  let num = 0;
+  let bonusroulettegameAnimation = setInterval(() => {
+    num++;
+    roulette.css("transform", "rotate(" + 360 * num + "deg)");
+    if (num === 50) {
+      clearInterval(bonusroulettegameAnimation);
+      roulette.css("transform", "rotate(" + bonusroulettegameDeg + "deg)");
+    }
+  }, 50);
+  return bonusroulettegameDeg;
+};
+// 보너스 룰렛 게임, 룰렛 시작
+$(document).on("click", "#bonusroulettegame_btn_start", function () {
+  $("#bonusroulettegame_btn_start").remove();
+  let bonusroulettegameDeg = bonusroulettegameRotate();
+  setTimeout(() => {
+    let resultPoint;
+    switch (bonusroulettegameDeg) {
+      case 360:
+        resultPoint = 1;
+        break;
+      case 120:
+        resultPoint = 1000;
+        break;
+      case 240:
+        resultPoint = 5000;
+        break;
+      case 300:
+        resultPoint = 10000;
+        break;
+      case 60:
+        resultPoint = 50000;
+        break;
+      case 180:
+        resultPoint = 100000;
+    }
+    Swal.fire({
+      title: "축하드립니다!",
+      text: resultPoint + "포인트를 적립합니다.",
+      icon: "success",
+      confirmButtonColor: "#5b7d97",
+    }).then((result) => {
+      $.ajax({
+        type: "POST",
+        url: "/minigames/api_gamedone/",
+        dataType: "json",
+        data: {
+          result_point_give: resultPoint,
+        },
+        success: function (response) {
+          if (response["result"] == "SUCCESS") {
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "success",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.reload();
+            });
+          }
+        },
+      });
+    });
+  }, 5000);
+});
+
+// 베팅 게임 추가하기 기능
+$(document).on("click", ".bettinggame_btn_addgame", function () {
+  let title = $("#bettinggame_addgame_title").val();
+  let point = $("#bettinggame_addgame_point").val();
+  if (title.length > 0 && isNaN(point) == false && 50000 >= point > 0) {
+    $.ajax({
+      type: "POST",
+      url: "/minigames/api_addbettinggame/",
+      dataType: "json",
+      data: {
+        title_give: title,
+        point_give: point,
+      },
+      success: function (response) {
+        if (response["result"] == "SUCCESS") {
+          Swal.fire({
+            title: response["title"],
+            text: response["msg"],
+            icon: "success",
+            confirmButtonColor: "#5b7d97",
+          }).then((result) => {
+            location.reload();
+          });
+        }
+      },
+    });
+  } else {
+    Swal.fire({
+      title: "베팅 게임 추가 실패",
+      text: "입력 형식이 올바르지 않습니다.",
+      icon: "error",
+      confirmButtonColor: "#5b7d97",
+    }).then((result) => {
+      return 0;
+    });
+  }
+});
+// 베팅게임 참여하기 기능 (YES)
+$(document).on("click", ".bettinggame_item_yes", function (event) {
+  let id = $(event.target).closest(".bettinggame_item").attr("data-id");
+  let team = "yes";
+  $.ajax({
+    type: "POST",
+    url: "/minigames/api_joinbettinggame/",
+    dataType: "json",
+    data: {
+      id_give: id,
+      team_give: team,
+    },
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      } else {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "error",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+});
+
+// 베팅게임 참여하기 기능 (NO)
+$(document).on("click", ".bettinggame_item_no", function (event) {
+  let id = $(event.target).closest(".bettinggame_item").attr("data-id");
+  let team = "no";
+  $.ajax({
+    type: "POST",
+    url: "/minigames/api_joinbettinggame/",
+    dataType: "json",
+    data: {
+      id_give: id,
+      team_give: team,
+    },
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      } else {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "error",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+});
+
+// 베팅게임 삭제 기능
+$(document).on("click", ".bettinggame_btn_delete", function (event) {
+  let id = $(event.target).closest(".bettinggame_item").attr("data-id");
+
+  $.ajax({
+    type: "POST",
+    url: "/minigames/api_deletebettinggame/",
+    dataType: "json",
+    data: {
+      id_give: id,
+    },
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+});
+
+// 베팅게임 잠금 기능
+$(document).on("click", ".bettinggame_btn_lock", function (event) {
+  let id = $(event.target).closest(".bettinggame_item").attr("data-id");
+  $.ajax({
+    type: "POST",
+    url: "/minigames/api_lockebettinggame/",
+    dataType: "json",
+    data: {
+      id_give: id,
+    },
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+});
+
+// 베팅게임 정산 기능(YES)
+$(document).on("click", ".bettinggame_btn_done_yes", function (event) {
+  let id = $(event.target).closest(".bettinggame_item").attr("data-id");
+  let result = "yes";
+
+  $.ajax({
+    type: "POST",
+    url: "/minigames/api_donebettinggame/",
+    dataType: "json",
+    data: {
+      id_give: id,
+      result_give: result,
+    },
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+});
+
+// 베팅게임 정산 기능(NO)
+$(document).on("click", ".bettinggame_btn_done_no", function (event) {
+  let id = $(event.target).closest(".bettinggame_item").attr("data-id");
+  let result = "no";
+
+  $.ajax({
+    type: "POST",
+    url: "/minigames/api_donebettinggame/",
+    dataType: "json",
+    data: {
+      id_give: id,
+      result_give: result,
+    },
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+});
+
+// window size가 작아지면 메뉴바 체인지
+$(document).on("click", ".bi-list", function () {
+  if ($("#header_list_container").css("display") == "none") {
+    $("#header_list_container").css("display", "flex");
+  } else {
+    $("#header_list_container").css("display", "none");
+  }
+});
+$(window).resize(function () {
+  if (window.innerWidth > 680) {
+    $("#header_list_container").css("display", "flex");
+  } else {
+    $("#header_list_container").css("display", "none");
+  }
 });

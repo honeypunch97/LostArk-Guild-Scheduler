@@ -1,28 +1,33 @@
 :root {
-  --color_light: #eeffff;
-  --color_main: #bbdefb;
-  --color_dark: #8aacc8;
-  --color_deep_dark: #5b7d97;
-  --color_light_gray: #eceff1;
-  --color_main_gray: #cfd8dc;
-  --color_dark_gray: #b0bec5;
-  --color_deep_dark_gray: #90a4ae;
+  --color-black: #1a2b51;
+  --color-deepblue: #2f4e73;
+  --color-deepgray: #4e5b6e;
+  --color-skyblue: #72daff;
+  --color-white: #f7f7f7;
+  --color-point: #ff7669;
+
+  /* 폰트 설정 16px기준, xl=20px, l=18px, basic=16px, s=14px, xs=12px*/
+  --fontsize_xl: 1.25rem;
+  --fontsize_l: 1.125rem;
+  --fontsize_basic: 1rem;
+  --fontsize_s: 0.875rem;
+  --fontsize_xs: 0.75rem;
 }
 * {
   font-family: "Noto Sans KR", sans-serif;
+  font-weight: 400;
   margin: 0;
   padding: 0;
   list-style: none;
   border: none;
-  color: black;
+  color: var(--color-black);
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 400;
   outline: none;
   box-sizing: border-box;
 }
 html {
-  background-color: var(--color_light_gray);
+  background-color: var(--color-white);
+  font-size: 16px;
 }
 
 body {

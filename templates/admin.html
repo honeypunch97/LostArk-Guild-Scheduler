@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--    favicon-->
+    <link
+      rel="shortcut icon"
+      href="../static/img/favicon.ico"
+      type="image/x-icon"
+      sizes="16x16"
+    />
+
+    <!--  css link-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"
+    />
+    <link rel="stylesheet" href="../static/css/reset.css" />
+    <link rel="stylesheet" href="../static/css/admin.css" />
+
+    <!--    jqery-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!--    jquery cookie-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+      integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!--    ajax-->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.4/jquery.xdomainrequest.min.js"
+      integrity="sha512-AqrEfeiUZBu9nWx7jHZlve8pPY3Mavhhwobv+pVxTSc10vpElmhFNDqe8DopVSvApKGfUrOQO3OshR8avd+pTw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!--    SweetAlert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+    <!--    js load-->
+    <script defer src="../static/js/admin.js"></script>
+
+    <!--    google fonts-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--    bootstrap icons-->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css"
+    />
+
+    <title>로아길스</title>
+  </head>
+  <body>
+    <div id="status_conatiner">
+      <div id="status_title">스케줄러 상황</div>
+      <div id="status_content">
+        <div class="status_item">
+          <div class="status_item_title">가입길드</div>
+          <div
+            id="status_item_content_guildnum"
+            class="status_item_content"
+          ></div>
+        </div>
+        <div class="status_item">
+          <div class="status_item_title">가입유저</div>
+          <div
+            id="status_item_content_usernum"
+            class="status_item_content"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <div id="announcement_container">
+      <div id="announcement_title">공지 수정</div>
+      <div id="announcement_content">
+        <textarea
+          name="announcement_textarea"
+          id="announcement_textarea"
+        ></textarea>
+        <div id="btn_update_announcement">공지 수정</div>
+      </div>
+    </div>
+    <div id="patchnote_container">
+      <div id="patchnote_title">패치 등록</div>
+      <div id="patchnote_content">
+        <textarea name="patchnote_textarea" id="patchnote_textarea"></textarea>
+        <div id="btn_insert_patchnote">패치 등록</div>
+      </div>
+    </div>
+    <div id="questions_container">
+      <div id="questions_title">문의</div>
+      <div id="questions_content">
+        <div id="btn_delete_questions">문의 삭제</div>
+      </div>
+    </div>
+    <div id="syslog_container">
+      <div id="syslog_title">시스템 로그</div>
+      <div id="syslog_content">
+        <div id="btn_delete_syslog">로그 삭제</div>
+      </div>
+    </div>
+  </body>
+</html>

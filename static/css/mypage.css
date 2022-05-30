@@ -1,330 +1,401 @@
 body {
-  background-color: var(--color_light_gray);
+  background-color: var(--color-white);
 }
 #mypage_container {
   min-height: 100vh;
   margin: 0 auto;
 }
 .mypage_title {
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   display: flex;
-  height: 50px;
+  height: 5vh;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
 .btn_goto_mainpage,
 .btn_logout {
-  width: 100px;
-  height: 40px;
+  font-size: var(--fontsize_s);
+  padding: 0.25rem 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   transition: ease-in-out 0.3s;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   font-weight: 500;
 }
 .btn_goto_mainpage:hover,
 .btn_logout:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
 }
 .btn_goto_mainpage {
-  margin-left: 10px;
+  margin-left: 0.625rem;
 }
 .btn_logout {
-  margin-right: 10px;
+  margin-right: 0.625rem;
 }
 .mypage_title h1 {
-  font-size: 28px;
+  font-size: var(--fontsize_xl);
   font-weight: 700;
   color: white;
 }
+/* 내 정보 수정 */
 .myinfo_container {
-  margin: 0 auto;
+  margin: 1rem auto;
   width: 90%;
-  border: 2px solid var(--color_deep_dark);
-  border-radius: 10px;
+  border-radius: 0.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
 }
 .myinfo_title {
-  background-color: var(--color_deep_dark);
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: var(--color-deepblue);
   display: flex;
-  height: 30px;
+  height: 2rem;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
-  border-radius: 2px 2px 0 0;
-}
-.myinfo_title div {
-  width: 5%;
-  height: 75%;
-  margin: 0 10px;
+  position: relative;
 }
 .btn_change_myinfo {
+  font-size: var(--fontsize_s);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 3px;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+  padding: 0.125rem 0.25rem;
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translate(0, -50%);
 }
 .btn_change_myinfo:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
 }
 .myinfo_title h1 {
+  font-size: var(--fontsize_l);
   color: white;
-  font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
 }
 .myinfo_row {
+  border-radius: 0 0 0.5rem 0.5rem;
+  border: 0.125rem solid var(--color-deepblue);
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  padding: 1.25rem 0;
 }
 .myinfo_item {
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
   display: flex;
-  margin: 10px;
-  width: 18%;
+  margin: 0.5rem;
+  height: 2.5rem;
+  width: 15rem;
 }
 .myinfo_key {
+  font-size: var(--fontsize_s);
   width: 25%;
-  height: 40px;
-  background-color: var(--color_dark);
-  border-radius: 1px 0 0 1px;
+  height: 100%;
+  background-color: var(--color-deepgray);
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
 }
 .myinfo_value {
+  font-size: var(--fontsize_s);
   width: 75%;
-  height: 40px;
-  border-radius: 0 1px 1px 0;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
+  border-radius: 0 0.25rem 0.25rem 0;
 }
 .myinfo_value input {
   width: 100%;
   height: 100%;
   text-align: center;
+  border-radius: 0 0.25rem 0.25rem 0;
 }
 .myinfo_value select {
   width: 100%;
   height: 100%;
   text-align: center;
+  border-radius: 0 0.25rem 0.25rem 0;
 }
 .locked {
   background-color: var(--color_main_gray);
+}
+/* 내 길드 정보 */
+#guild_container {
+  margin: 1rem auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+#guild_title {
+  font-size: var(--fontsize_l);
+  font-weight: 500;
+  color: white;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: var(--color-deepblue);
+  display: flex;
+  height: 2rem;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+#guild_content {
+  background-color: white;
+  border-radius: 0 0 0.5rem 0.5rem;
+  border: 0.125rem solid var(--color-deepblue);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1.25rem 0;
+}
+.guild_item {
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
+  display: flex;
+  margin: 0.5rem;
+  height: 2.5rem;
+  width: 15rem;
+}
+.guild_item_title {
+  font-size: var(--fontsize_s);
+  width: 25%;
+  height: 100%;
+  background-color: var(--color-deepgray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.guild_item_content {
+  font-size: var(--fontsize_s);
+  width: 75%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+.guild_btn {
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+  height: 2.5rem;
+  width: 15rem;
+  font-size: var(--fontsize_s);
+  color: white;
+  background-color: var(--color-deepgray);
+  cursor: pointer;
+  transition: 0.3s;
+}
+.guild_btn:hover {
+  background-color: white;
+  color: var(--color-deepgray);
 }
 .announcement_wrap {
   width: 90%;
   display: flex;
   justify-content: space-between;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 1rem auto;
 }
 .announcement_container {
   width: 49.5%;
-  border: 2px solid var(--color_deep_dark);
-  border-radius: 10px;
+  border-radius: 0.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;
 }
 .announcement_title {
-  background-color: var(--color_deep_dark);
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: var(--color-deepblue);
   display: flex;
-  height: 30px;
+  height: 2rem;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
-  border-radius: 2px 2px 0 0;
+  position: relative;
 }
 .announcement_title h1 {
   color: white;
-  font-size: 18px;
-  font-weight: 700;
-}
-.announcement_title div {
-  width: 10%;
-  height: 75%;
-  margin: 0 10px;
+  font-size: var(--fontsize_l);
+  font-weight: 500;
 }
 .btn_change_announcement {
+  font-size: var(--fontsize_s);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 3px;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: 0.3s ease-in-out;
+  padding: 0.125rem 0.25rem;
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translate(0, -50%);
 }
 .btn_change_announcement:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
+}
+.main_announcement_content,
+.resourceoffice_announcement_content {
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .main_announcement_content textarea,
 .announcement_container textarea {
+  font-size: var(--fontsize_s);
   width: 100%;
-  height: 200px;
+  height: 12rem;
   resize: none;
-  border-radius: 10px;
+
+  padding: 0.5rem;
 }
 
 .grade_container {
-  margin: 0 auto;
+  margin: 0 auto 1rem auto;
   width: 90%;
-  border: 2px solid var(--color_deep_dark);
-  border-radius: 10px;
+  border-radius: 0.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
 }
 .grade_title {
-  background-color: var(--color_deep_dark);
+  font-size: var(--fontsize_l);
+  background-color: var(--color-deepblue);
   display: flex;
-  height: 30px;
+  height: 2rem;
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
-  border-radius: 2px 2px 0 0;
+  border-radius: 0.5rem 0.5rem 0 0;
   color: white;
-  font-size: 18px;
   font-weight: 700;
 }
+.grade_content {
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
+}
 .grade_box {
-  margin: 0 auto;
+  margin: 0 auto 0.5rem auto;
   width: 99%;
-  border: 2px solid var(--color_dark);
-  border-radius: 10px;
+  border-radius: 0.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+}
+#guildmaster {
+  margin-top: 0.5rem;
 }
 .grade_box_title {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: var(--color-deepgray);
   display: flex;
-  height: 20px;
+  height: 1.5rem;
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
-  border-radius: 2px 2px 0 0;
   color: white;
-  font-size: 14px;
   font-weight: 700;
 }
 .grade_box_content {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .user-item {
   margin: 0 auto;
-  border: 2px solid var(--color_dark);
-  border-radius: 10px;
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
   background-color: white;
   display: flex;
-  margin: 5px;
+  margin: 0.25rem;
   display: flex;
-  height: 30px;
+  height: 1.875rem;
   justify-content: center;
   align-items: center;
 }
 .user-item_nickname {
+  font-size: var(--fontsize_s);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--color_dark);
+  background-color: var(--color-deepgray);
   height: 100%;
-  padding: 0 5px;
+  padding: 0 0.25rem;
   color: white;
-  border-radius: 3px 0 0 3px;
 }
 .user-item_email {
+  font-size: var(--fontsize_s);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 5px;
+  padding: 0 0.25rem;
 }
-.grade_upgrade_btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 20px;
-  padding: 0 3px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: ease-in-out 0.3s;
-  font-weight: 900;
-  border: 1px solid var(--color_dark);
-  margin-right: 3px;
-  background-color: var(--color_dark);
-  color: white;
-}
-.grade_upgrade_btn:hover {
-  background-color: white;
-  color: var(--color_dark);
-}
+.grade_upgrade_btn,
 .grade_downgrade_btn {
+  font-size: var(--fontsize_s);
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 20px;
-  padding: 0 3px;
-  border-radius: 3px;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 0.0625rem solid var(--color-deepgray);
+  border-radius: 0.25rem;
   cursor: pointer;
   transition: ease-in-out 0.3s;
-  font-weight: 900;
-  border: 1px solid var(--color_dark);
-  margin-right: 5px;
-  background-color: var(--color_dark);
+  margin-right: 0.125rem;
+  background-color: var(--color-deepgray);
   color: white;
 }
+.grade_upgrade_btn:hover,
 .grade_downgrade_btn:hover {
   background-color: white;
-  color: var(--color_dark);
+  color: var(--color-deepgray);
 }
+
 .point_management_container {
-  margin: 0 auto;
+  margin: 0 auto 1rem auto;
   width: 90%;
-  border: 2px solid var(--color_deep_dark);
-  border-radius: 10px;
+  border-radius: 0.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
 }
 .point_management_title {
-  background-color: var(--color_deep_dark);
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: var(--color-deepblue);
   display: flex;
-  height: 30px;
+  height: 2rem;
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
-  border-radius: 2px 2px 0 0;
 }
 .point_management_title > h1 {
+  font-size: var(--fontsize_l);
   color: white;
-  font-size: 18px;
   font-weight: 700;
 }
 .point_management_content {
@@ -332,72 +403,125 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .point_management_manual {
+  font-size: var(--fontsize_s);
   width: 99%;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
   padding: 1%;
-  box-sizing: border-box;
-  margin-bottom: 1%;
+  margin: 0.5rem 0;
 }
 .point_management_Monitor {
+  font-size: var(--fontsize_s);
   width: 99%;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
   padding: 1%;
-  box-sizing: border-box;
-  margin-bottom: 1%;
+  margin-bottom: 0.5rem;
 }
 #point_management_command_box {
+  font-size: var(--fontsize_s);
   width: 99%;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
   padding: 1%;
-  box-sizing: border-box;
-  margin-bottom: 1%;
+  margin-bottom: 0.5rem;
 }
 
 .log_container {
-  margin: 0 auto;
+  margin: 0 auto 1rem auto;
   width: 90%;
-  border: 2px solid var(--color_deep_dark);
-  border-radius: 10px;
-  background-color: white;
+  border-radius: 0.5rem;
+  background-color: var(--color-deepblue);
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
 }
 .log_title {
-  background-color: var(--color_deep_dark);
+  background-color: var(--color-deepblue);
   display: flex;
-  height: 30px;
+  height: 2rem;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
-  border-radius: 2px 2px 0 0;
+  position: relative;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 .log_title > h1 {
+  font-size: var(--fontsize_l);
   color: white;
-  font-size: 18px;
-  font-weight: 700;
+  font-weight: 500;
+}
+.log_content {
+  padding: 1%;
+  background-color: white;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+.log_content > p {
+  font-size: var(--fontsize_s);
 }
 .btn_delete_log,
 .btn_print_log {
+  font-size: var(--fontsize_s);
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: ease-in-out 0.3s;
-  width: 5%;
-  height: 75%;
-  margin: 0 10px;
+  padding: 0.125rem 0.25rem;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.btn_delete_log {
+  left: 0.5rem;
+}
+.btn_print_log {
+  right: 0.5rem;
 }
 .btn_delete_log:hover,
 .btn_print_log:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
+}
+
+@media (max-width: 1024px) {
+  .myinfo_container {
+    margin: 1rem auto 1rem auto;
+    width: 99%;
+  }
+  .myinfo_item {
+    margin: 0.125rem;
+  }
+  .announcement_wrap {
+    margin: 0 auto 0 auto;
+    width: 99%;
+    flex-direction: column;
+  }
+  .announcement_container {
+    width: 100%;
+    margin: 0 auto 1rem auto;
+  }
+  .grade_container {
+    width: 99%;
+  }
+  .point_management_container {
+    width: 99%;
+  }
+  .log_container {
+    width: 99%;
+  }
+}
+@media (max-width: 680px) {
+  html {
+    font-size: 14px;
+  }
+  .grade_box_content {
+    justify-content: center;
+  }
 }

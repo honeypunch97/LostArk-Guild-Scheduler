@@ -1,5 +1,6 @@
 $(document).ready(function () {
   printUserInfo();
+  findMyGuildInfo();
   checkMembership();
 });
 //내 정보 수정의 유저 정보 넣어주기(이메일, 닉네임, 권한 등)
@@ -24,9 +25,173 @@ function printUserInfo() {
     .prop("selected", true);
 }
 
+// 내 길드 정보 가져오기
+function findMyGuildInfo() {
+  $.ajax({
+    type: "GET",
+    url: "/mypage/api_find_myguildinfo/",
+    dataType: "json",
+    data: {},
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        let tempHtml = `<div class="guild_btn btn_leave_site">
+            사이트탈퇴
+          </div>`;
+        $("#guild_content").append(tempHtml);
+        $(".guild_item_guildname .guild_item_content").text(response["guild"]);
+        if (response["guild"] != "") {
+          $(".guild_item_guildmember .guild_item_content").text(
+            response["guildmember"]
+          );
+          if (
+            response["membership"] == "관리자" ||
+            response["membership"] == "길드마스터"
+          ) {
+            let tempHtml = `<div class="guild_btn btn_delete_guild">
+            길드삭제
+          </div>`;
+            $("#guild_content").append(tempHtml);
+          } else {
+            let tempHtml = `<div class="guild_btn btn_leave_guild">
+            길드탈퇴
+          </div>`;
+            $("#guild_content").append(tempHtml);
+          }
+        }
+      }
+    },
+  });
+}
+// 사이트 탈퇴 기능
+$(document).on("click", ".btn_leave_site", function () {
+  Swal.fire({
+    title: "사이트에서 탈퇴하시겠습니까?",
+    text: "다음에는 더 좋은 모습으로 뵙겠습니다.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#5b7d97",
+    cancelButtonColor: "#bbdefb",
+    confirmButtonText: "YES",
+    cancelButtonText: "NO",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "GET",
+        url: "/mypage/api_leave_site/",
+        dataType: "json",
+        data: {},
+        success: function (response) {
+          if (response["result"] == "SUCCESS") {
+            $.removeCookie("mytoken", { path: "/" });
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "success",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.href = "/";
+            });
+          } else {
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "error",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.reload();
+            });
+          }
+        },
+      });
+    }
+  });
+});
+
+// 길드 탈퇴 기능
+$(document).on("click", ".btn_leave_guild", function () {
+  $.ajax({
+    type: "GET",
+    url: "/mypage/api_leave_guild/",
+    dataType: "json",
+    data: {},
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        $.removeCookie("mytoken", { path: "/" });
+        $.cookie("mytoken", response["token"], { expires: 30, path: "/" });
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "success",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      } else {
+        Swal.fire({
+          title: response["title"],
+          text: response["msg"],
+          icon: "error",
+          confirmButtonColor: "#5b7d97",
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+  });
+});
+
+// 길드 삭제 기능
+$(document).on("click", ".btn_delete_guild", function () {
+  Swal.fire({
+    title: "길드를 삭제하겠습니까?",
+    text: "삭제한 길드는 되돌릴 수 없습니다.",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#5b7d97",
+    cancelButtonColor: "#bbdefb",
+    confirmButtonText: "YES",
+    cancelButtonText: "NO",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "GET",
+        url: "/mypage/api_delete_guild/",
+        dataType: "json",
+        data: {},
+        success: function (response) {
+          if (response["result"] == "SUCCESS") {
+            $.removeCookie("mytoken", { path: "/" });
+            $.cookie("mytoken", response["token"], { expires: 30, path: "/" });
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "success",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.reload();
+            });
+          } else {
+            Swal.fire({
+              title: response["title"],
+              text: response["msg"],
+              icon: "error",
+              confirmButtonColor: "#5b7d97",
+            }).then((result) => {
+              location.reload();
+            });
+          }
+        },
+      });
+    }
+  });
+});
 //권한을 확인하여 '관리자'이면 '공지 수정', '회원 권한 수정', '로그 기록' 넣어주고 데이터 넣어주기
 function checkMembership() {
-  if ($(".myinfo_container").attr("data-membership") == "관리자") {
+  if (
+    $(".myinfo_container").attr("data-membership") == "관리자" ||
+    $(".myinfo_container").attr("data-membership") == "길드마스터" ||
+    $(".myinfo_container").attr("data-membership") == "길드임원"
+  ) {
     pushAnnouncementContainer();
     pushGradeContainer();
     pushPointManagementContainer();
@@ -42,9 +207,8 @@ function pushAnnouncementContainer() {
   let announcementHtml = `<div class="announcement_wrap">
                                 <div class="announcement_container">
                                     <div class="announcement_title">
-                                        <div></div>
                                         <h1>메인 공지 수정</h1>
-                                        <div onclick="changeMainAnnouncement()" class="btn_change_announcement">수정하기</div>
+                                        <div onclick="changeMainAnnouncement()" class="btn_change_announcement">수정</div>
                                     </div>
                                     <div class="main_announcement_content">
                                         <textarea></textarea>
@@ -52,9 +216,8 @@ function pushAnnouncementContainer() {
                                 </div>
                                 <div class="announcement_container">
                                     <div class="announcement_title">
-                                        <div></div>
                                         <h1>인력사무소 공지 수정</h1>
-                                        <div onclick="changeResourceofficeAnnouncement()" class="btn_change_announcement">수정하기</div>
+                                        <div onclick="changeResourceofficeAnnouncement()" class="btn_change_announcement">수정</div>
                                     </div>
                                     <div class="resourceoffice_announcement_content">
                                         <textarea></textarea>
@@ -95,23 +258,28 @@ function pushAnnouncementContent() {
 
 //회원 권한 수정 컨테이너 넣어주기
 function pushGradeContainer() {
-  let gradeHtml = `<div class="grade_container">
-        <div class="grade_title">회원 권한 수정</div>
-        <div id="admin" class="grade_box">
-            <div class="grade_box_title">관리자</div>
-            <div class="grade_box_content"></div>
-        </div>
-        <div id="approvedmember" class="grade_box">
-            <div class="grade_box_title">승인회원</div>
-            <div class="grade_box_content">
-            </div>
-        </div>
-        <div id="nonmember" class="grade_box">
-            <div class="grade_box_title">비승인회원</div>
-            <div class="grade_box_content">
-            </div>
-        </div>
-    </div>`;
+  let gradeHtml = `
+                    <div class="grade_container">
+                    <div class="grade_title">회원 권한 수정</div>
+                    <div class="grade_content">
+                      <div id="guildmaster" class="grade_box">
+                        <div class="grade_box_title">길드마스터</div>
+                        <div class="grade_box_content"></div>
+                      </div>
+                      <div id="guildstaff" class="grade_box">
+                        <div class="grade_box_title">길드임원</div>
+                        <div class="grade_box_content"></div>
+                      </div>
+                      <div id="guildmember" class="grade_box">
+                        <div class="grade_box_title">길드원</div>
+                        <div class="grade_box_content"></div>
+                      </div>
+                      <div id="guildnonemember" class="grade_box">
+                        <div class="grade_box_title">사용자</div>
+                        <div class="grade_box_content"></div>
+                      </div>
+                    </div>
+                  </div>`;
   $("#mypage_container").append(gradeHtml);
 }
 
@@ -127,12 +295,12 @@ function pushPointManagementContainer() {
                         모니터링 창 초기화 : clear<br />
                         전체 회원 포인트 조회 : find_all<br />
                         선택 회원 포인트 조회 : find 닉네임<br />
-                        선택 회원 포인트 변경 : set 닉네임 변경할값 {ex) set 꿀주먹 3000 =>
-                        꿀주먹 포인트를 3000으로 변경}<br />
-                        선택 회원 포인트 추가 : set 닉네임 +추가할값 {ex) set 꿀주먹 +3000
-                        => 꿀주먹 기존 포인트에서 3000포인트 추가}<br />
-                        선택 회원 포인트 차감 : set 닉네임 -차감할값 {ex) set 꿀주먹 -3000
-                        => 꿀주먹 기존 포인트에서 3000포인트 차감}
+                        선택 회원 포인트 변경 : set 닉네임 변경할값 {ex) set 모코코 3000 =>
+                        모코코 포인트를 3000으로 변경}<br />
+                        선택 회원 포인트 추가 : set 닉네임 +추가할값 {ex) set 모코코 +3000
+                        => 모코코 기존 포인트에서 3000포인트 추가}<br />
+                        선택 회원 포인트 차감 : set 닉네임 -차감할값 {ex) set 모코코 -3000
+                        => 모코코 기존 포인트에서 3000포인트 차감}
                     </div>
                     <div class="point_management_Monitor">
                         <p>명령 대기중...</p>
@@ -152,9 +320,9 @@ function pushPointManagementContainer() {
 function pushlogContainer() {
   let logHtml = `<div class="log_container">
         <div class="log_title">
-            <div onclick="deleteLog()" class="btn_delete_log">로그 삭제</div>
+            <div onclick="deleteLog()" class="btn_delete_log">삭제</div>
             <h1>로그 기록</h1>
-            <div onclick="printLog()" class="btn_print_log">로그 출력</div>
+            <div onclick="printLog()" class="btn_print_log">출력</div>
         </div>
         <div class="log_content"></div>
     </div>`;
@@ -178,42 +346,52 @@ function findUsersInfoAndAnnouncement() {
         let user_nickname;
         let user_email;
         let temp_html;
-        //관리자 가져와서, 넣어주기
-        for (let i = 0; i < response["users_admin"].length; i++) {
-          user_nickname = response["users_admin"][i]["nickname"];
-          user_email = response["users_admin"][i]["email"];
+        //길드마스터 가져와서, 넣어주기
+        for (let i = 0; i < response["users_guildmaster"].length; i++) {
+          user_nickname = response["users_guildmaster"][i]["nickname"];
+          user_email = response["users_guildmaster"][i]["email"];
+          temp_html = `<div class="user-item">
+                                <div class="user-item_nickname">${user_nickname}</div>
+                                <div class="user-item_email">${user_email}</div>
+                            </div>`;
+          $("#guildmaster > .grade_box_content").append(temp_html);
+        }
+
+        //길드임원 가져와서, 넣어주기
+        for (let i = 0; i < response["users_guildstaff"].length; i++) {
+          user_nickname = response["users_guildstaff"][i]["nickname"];
+          user_email = response["users_guildstaff"][i]["email"];
           temp_html = `<div class="user-item">
                                 <div class="user-item_nickname">${user_nickname}</div>
                                 <div class="user-item_email">${user_email}</div>
                                 <div onclick="downGrade(event)" class="grade_downgrade_btn">X</div>
                             </div>`;
-          $("#admin > .grade_box_content").append(temp_html);
+          $("#guildstaff > .grade_box_content").append(temp_html);
         }
 
-        //승인회원 가져와서, 넣어주기
-        for (let i = 0; i < response["users_approvedmember"].length; i++) {
-          user_nickname = response["users_approvedmember"][i]["nickname"];
-          user_email = response["users_approvedmember"][i]["email"];
+        //길드원 가져와서, 넣어주기
+        for (let i = 0; i < response["users_guildmember"].length; i++) {
+          user_nickname = response["users_guildmember"][i]["nickname"];
+          user_email = response["users_guildmember"][i]["email"];
           temp_html = `<div class="user-item">
                                 <div class="user-item_nickname">${user_nickname}</div>
                                 <div class="user-item_email">${user_email}</div>
                                 <div onclick="upGrade(event)" class="grade_upgrade_btn">O</div>
                                 <div onclick="downGrade(event)" class="grade_downgrade_btn">X</div>
                             </div>`;
-          $("#approvedmember > .grade_box_content").append(temp_html);
+          $("#guildmember > .grade_box_content").append(temp_html);
         }
-
-        //비승인회원 가져와서, 넣어주기
-        for (let i = 0; i < response["users_nonmember"].length; i++) {
-          user_nickname = response["users_nonmember"][i]["nickname"];
-          user_email = response["users_nonmember"][i]["email"];
+        //사용자 가져와서, 넣어주기
+        for (let i = 0; i < response["users_guildnonemember"].length; i++) {
+          user_nickname = response["users_guildnonemember"][i]["nickname"];
+          user_email = response["users_guildnonemember"][i]["email"];
           temp_html = `<div class="user-item">
                                 <div class="user-item_nickname">${user_nickname}</div>
                                 <div class="user-item_email">${user_email}</div>
                                 <div onclick="upGrade(event)" class="grade_upgrade_btn">O</div>
                                 <div onclick="downGrade(event)" class="grade_downgrade_btn">X</div>
                             </div>`;
-          $("#nonmember > .grade_box_content").append(temp_html);
+          $("#guildnonemember > .grade_box_content").append(temp_html);
         }
       } else {
         Swal.fire({
@@ -245,7 +423,7 @@ function logout() {
   });
 }
 
-//나의 정보 수정하기 기능
+//나의 정보 수정 기능
 function changeUserInfo() {
   // pw 정규식: 8~16글자 영문, 숫자, 특수문자 사용
   const pwRegex =
@@ -504,11 +682,11 @@ $(document).on("keypress", "#point_management_command_box", function (key) {
         if (response["result"] == "SUCCESS") {
           if (command == "find_all") {
             for (let i = 0; i < response["return_value"].length; i++) {
-              let tempHtml = `<p>${response["return_value"][i]["nickname"]} - ${response["return_value"][i]["point"]}포인트</p>`;
+              let tempHtml = `<p>${response["return_value"][i]["nickname"]}: ${response["return_value"][i]["point"]}포인트</p>`;
               $(".point_management_Monitor").append(tempHtml);
             }
           } else if (command == "find") {
-            let tempHtml = `<p>${response["return_value"]["nickname"]} - ${response["return_value"]["point"]}포인트</p>`;
+            let tempHtml = `<p>${response["return_value"]["nickname"]}: ${response["return_value"]["point"]}포인트</p>`;
             $(".point_management_Monitor").append(tempHtml);
           } else if (command == "set") {
             let tempHtml = `<p>${response["return_value"]}</p>`;

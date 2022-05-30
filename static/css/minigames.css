@@ -1,9 +1,9 @@
 main {
   display: flex;
   justify-content: center;
-  min-height: 94vh;
+  min-height: 100vh;
   padding-top: 6vh;
-  background-color: var(--color_light_gray);
+  background-color: var(--color-white);
 }
 
 .ad_section {
@@ -13,102 +13,61 @@ main {
   flex-direction: column;
   align-items: center;
   position: fixed;
-  top: 7%;
+  top: 6%;
   left: 0;
 }
 .advertising {
+  font-size: 0.75rem;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  width: 250px;
-  height: 400px;
+  width: 15.625rem;
+  height: 25rem;
   background-color: white;
-  border: 1px solid black;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 
 .content_section {
   width: 60%;
-  min-height: 94vh;
+  min-height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
-  z-index: 1;
-  background-color: var(--color_light_gray);
 }
 .free_abilitystonegame_container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 800px;
-  height: 250px;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
-  margin: 5px;
+  width: 100%;
+  max-width: 50rem;
+  height: 15.625rem;
+  margin-bottom: 1rem;
 }
 .free_abilitystonegame_titlebox {
+  border-radius: 0.5rem 0.5rem 0 0;
   width: 100%;
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 5px 0;
+  padding: 0.25rem 0;
 }
 .free_abilitystonegame_titlebox div {
-  width: 5%;
+  font-size: var(--fontsize_xs);
   display: flex;
+  min-width: 5%;
   justify-content: center;
   align-items: center;
   color: white;
 }
 .free_abilitystonegame_titlebox h1 {
-  width: 90%;
+  font-size: var(--fontsize_s);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.free_abilitystonegame_start_container {
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.free_abilitystonegame_start_announcement {
-  background-color: var(--color_dark);
-  width: 80%;
-  height: 50%;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.free_abilitystonegame_start_announcement > p {
-  color: white;
-}
-.free_abilitystonegame_start_btn {
-  margin-top: 5%;
-  background-color: var(--color_dark);
-  color: white;
-  width: 100px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: ease-in-out 0.5s;
-  border: 2px solid var(--color_dark);
-  font-weight: 500;
-}
-.free_abilitystonegame_start_btn:hover {
-  background-color: white;
-  color: var(--color_deep_dark);
-}
+
 .free_abilitystonegame_contentbox {
   width: 100%;
   height: 100%;
@@ -117,120 +76,127 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 0 0 5px 5px;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
+  position: relative;
 }
 .free_abilitystonegame_row {
-  width: 100%;
+  width: 99%;
   display: flex;
   justify-content: space-between;
-  margin: 5px 0;
+  margin: 0.25rem 0;
 }
 .free_abilitystonegame_row:nth-child(1) {
   justify-content: flex-end;
 }
 .free_abilitystonegame_row:nth-child(5) {
-  margin-top: 15px;
+  margin-bottom: 1rem;
   justify-content: center;
 }
 #free_abilitystonegame_probability {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 50px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px;
 }
 .free_abilitystonegame_name {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px;
-}
-.free_diamond {
-  width: 15px;
-  height: 15px;
-  border: 2px solid var(--color_dark);
-  transform: translateY(6px) rotate(45deg);
-  background-color: white;
-  transition: ease-in-out 0.5s;
 }
 .free_abilitystonegame_numberofsuccess {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px;
 }
 .free_abilitystonegame_btn_doit {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100px;
+  padding: 0.25rem;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px 0 0;
-  transition: ease-in-out 0.5s;
+  transition: ease-in-out 0.3s;
   cursor: pointer;
 }
 .free_abilitystonegame_btn_doit:hover {
-  background-color: var(--color_deep_dark);
+  background-color: white;
+  color: var(--color-deepblue);
 }
 .free_abilitystonegame_btn_done {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100px;
+  padding: 0.25rem;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
+  width: 6.25rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: ease-in-out 0.5s;
+  transition: ease-in-out 0.3s;
   cursor: pointer;
+  font-weight: 500;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 .free_abilitystonegame_btn_done:hover {
-  background-color: var(--color_deep_dark);
+  background-color: white;
+  color: var(--color-deepblue);
 }
 
 .abilitystonegame_container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 800px;
-  height: 250px;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
-  margin: 5px;
+  width: 100%;
+  max-width: 50rem;
+  height: 15.625rem;
+  margin-bottom: 1rem;
 }
 .abilitystonegame_titlebox {
+  border-radius: 0.5rem 0.5rem 0 0;
   width: 100%;
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px 0;
+  padding: 0.25rem 0;
 }
 .abilitystonegame_titlebox div {
-  width: 5%;
+  font-size: var(--fontsize_xs);
   display: flex;
+  min-width: 5%;
   justify-content: center;
   align-items: center;
   color: white;
 }
 .abilitystonegame_titlebox h1 {
+  font-size: var(--fontsize_s);
   width: 90%;
   display: flex;
   justify-content: center;
@@ -245,38 +211,46 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
+  position: relative;
 }
 .abilitystonegame_start_announcement {
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   width: 80%;
   height: 50%;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .abilitystonegame_start_announcement > p {
+  font-size: var(--fontsize_s);
   color: white;
 }
 .abilitystonegame_start_btn {
-  margin-top: 5%;
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  width: 100px;
-  height: 30px;
+  width: 6.25rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: ease-in-out 0.5s;
-  border: 2px solid var(--color_dark);
+  transition: ease-in-out 0.3s;
   font-weight: 500;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 .abilitystonegame_start_btn:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
 }
 .abilitystonegame_contentbox {
   width: 100%;
@@ -286,113 +260,125 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 0 0 5px 5px;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
+  position: relative;
 }
 .abilitystonegame_row {
-  width: 100%;
+  width: 99%;
   display: flex;
   justify-content: space-between;
-  margin: 5px 0;
+  margin: 0.25rem 0;
 }
 .abilitystonegame_row:nth-child(1) {
   justify-content: flex-end;
 }
 .abilitystonegame_row:nth-child(5) {
-  margin-top: 15px;
-  justify-content: center;
+  margin-bottom: 1rem;
 }
 #abilitystonegame_probability {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 50px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px;
 }
 .abilitystonegame_name {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px;
 }
 .diamond {
-  width: 15px;
-  height: 15px;
-  border: 2px solid var(--color_dark);
-  transform: translateY(6px) rotate(45deg);
+  width: 1rem;
+  height: 1rem;
+  border: 0.125rem solid var(--color-deepblue);
+  transform: translateY(0.5rem) rotate(45deg);
   background-color: white;
-  transition: ease-in-out 0.5s;
+  transition: ease-in-out 0.3s;
 }
 .abilitystonegame_numberofsuccess {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100px;
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px;
 }
 .abilitystonegame_btn_doit {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100px;
+  padding: 0.25rem;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
+  width: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20px 0 0;
-  transition: ease-in-out 0.5s;
+  transition: ease-in-out 0.3s;
   cursor: pointer;
 }
 .abilitystonegame_btn_doit:hover {
-  background-color: var(--color_deep_dark);
+  background-color: white;
+  color: var(--color-deepblue);
 }
 .abilitystonegame_btn_done {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  padding: 5px;
-  border-radius: 5px;
-  width: 100px;
+  padding: 0.25rem;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
+  width: 6.25rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: ease-in-out 0.5s;
+  transition: ease-in-out 0.3s;
   cursor: pointer;
+  font-weight: 500;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 .abilitystonegame_btn_done:hover {
-  background-color: var(--color_deep_dark);
+  background-color: white;
+  color: var(--color-deepblue);
 }
 .findninavegame_container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 800px;
-  height: 430px;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
-  margin: 5px;
+  width: 100%;
+  max-width: 50rem;
+  margin-bottom: 1rem;
 }
 .findninavegame_titlebox {
+  border-radius: 0.5rem 0.5rem 0 0;
   width: 100%;
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px 0;
+  padding: 0.25rem 0;
 }
 .findninavegame_titlebox div {
+  font-size: var(--fontsize_xs);
   width: 5%;
   color: white;
   display: flex;
@@ -400,6 +386,7 @@ main {
   align-items: center;
 }
 .findninavegame_titlebox h1 {
+  font-size: var(--fontsize_s);
   width: 90%;
   color: white;
   display: flex;
@@ -409,112 +396,123 @@ main {
 .findninavegame_start_container {
   background-color: white;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 2/1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
+  position: relative;
 }
 .findninavegame_start_announcement {
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   width: 80%;
   height: 50%;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .findninavegame_start_announcement > p {
+  font-size: var(--fontsize_s);
   color: white;
 }
 .findninavegame_start_btn {
-  margin-top: 5%;
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  width: 100px;
-  height: 30px;
+  width: 6.25rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: ease-in-out 0.5s;
-  border: 2px solid var(--color_dark);
+  transition: ease-in-out 0.3s;
   font-weight: 500;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 .findninavegame_start_btn:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
 }
 .findninavegame_contentbox {
   width: 100%;
   height: 100%;
 }
+
 .findninavegame_background {
+  background-image: url(../img/findninavegame_background.png);
+  background-size: contain;
   width: 100%;
-  height: 100%;
-  background-image: url("../img/findninavegame_background.png");
+  aspect-ratio: 2/1;
   display: flex;
   justify-content: space-around;
   align-items: center;
   position: relative;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .findninavegame_card {
-  width: 154px;
-  height: 236px;
-  background-image: url("../img/findninavegame_backofcard.png");
+  width: 19%;
+  height: auto;
   cursor: pointer;
-  transition: ease-in-out 0.5;
+  transition: transform 0.3s;
+  z-index: 1;
 }
 .findninavegame_card:hover {
-  border-radius: 5px;
   transform: scale(1.1);
 }
 .findninavegame_btn_done {
-  margin-top: 5%;
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  width: 100px;
-  height: 30px;
+  width: 6.25rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: ease-in-out 0.5s;
-  border: 2px solid var(--color_dark);
+  transition: ease-in-out 0.3s;
   font-weight: 500;
   position: absolute;
-  top: 80%;
+  bottom: 0.5rem;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
 }
 .findninavegame_btn_done:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
 }
 
 .papunikafishinggame_container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 800px;
-  height: 330px;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
-  margin: 5px;
+  width: 100%;
+  max-width: 50rem;
+  margin-bottom: 1rem;
 }
 .papunikafishinggame_titlebox {
+  border-radius: 0.5rem 0.5rem 0 0;
   width: 100%;
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px 0;
+  padding: 0.25rem 0;
 }
 .papunikafishinggame_titlebox div {
+  font-size: var(--fontsize_xs);
   width: 5%;
   color: white;
   display: flex;
@@ -522,6 +520,7 @@ main {
   align-items: center;
 }
 .papunikafishinggame_titlebox h1 {
+  font-size: var(--fontsize_s);
   width: 90%;
   color: white;
   display: flex;
@@ -531,61 +530,75 @@ main {
 .papunikafishinggame_start_container {
   background-color: white;
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  aspect-ratio: 8/3;
+  position: relative;
+  border-radius: 0 0 0.5rem 0.5rem;
+  border: 0.125rem solid var(--color-deepblue);
 }
 .papunikafishinggame_start_announcement {
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   width: 80%;
   height: 50%;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .papunikafishinggame_start_announcement p {
+  font-size: var(--fontsize_s);
   color: white;
 }
 .papunikafishinggame_start_btn {
-  margin-top: 5%;
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  width: 100px;
-  height: 30px;
+  width: 6.25rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: ease-in-out 0.5s;
-  border: 2px solid var(--color_dark);
+  transition: ease-in-out 0.3s;
   font-weight: 500;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 .papunikafishinggame_start_btn:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
 }
 .papunikafishinggame_contentbox {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 .papunikafishinggame_background {
   width: 100%;
   height: 100%;
   background-image: url("../img/papunikafishinggame_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  aspect-ratio: 8/3;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   position: relative;
+  border-radius: 0 0 0.5rem 0.5rem;
+  border: 0.125rem solid var(--color-deepblue);
 }
 .papunikafishinggame_item {
-  width: 280px;
-  height: 120px;
+  width: 40%;
+  height: 40%;
   background-color: rgba(255, 255, 255, 0.6);
   opacity: 0;
   position: absolute;
@@ -595,68 +608,438 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 0.5rem;
 }
 .papunikafishinggame_item_img {
-  width: 100px;
-  height: 100px;
+  width: 30%;
+  height: 80%;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .papunikafishinggame_item_content {
-  width: 150px;
-  height: 100px;
+  width: 70%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .papunikafishinggame_item_content p {
-  font-size: 20px;
+  font-size: var(--fontsize_xl);
   font-weight: 700;
 }
 .papunikafishinggame_btn_done {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  width: 100px;
-  height: 30px;
+  width: 6.25rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: ease-in-out 0.5s;
-  border: 2px solid var(--color_dark);
+  transition: ease-in-out 0.3s;
   font-weight: 500;
   position: absolute;
-  top: 90%;
+  bottom: 0.5rem;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
 }
 .papunikafishinggame_btn_done:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
 }
 .papunikafishinggame_btn_start {
-  background-color: var(--color_dark);
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
   color: white;
-  width: 100px;
-  height: 30px;
+  width: 6.25rem;
+  height: 1.875rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: ease-in-out 0.5s;
-  border: 2px solid var(--color_dark);
+  transition: ease-in-out 0.3s;
   font-weight: 500;
   position: absolute;
-  top: 90%;
+  bottom: 0.5rem;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0);
 }
 .papunikafishinggame_btn_start:hover {
   background-color: white;
-  color: var(--color_deep_dark);
+  color: var(--color-deepblue);
 }
+/* 룰렛 게임 */
+#pointroulettegame_container,
+#bonusroulettegame_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 50rem;
+  height: 37.5rem;
+  margin-bottom: 1rem;
+}
+#pointroulettegame_titlebox,
+#bonusroulettegame_titlebox {
+  border-radius: 0.5rem 0.5rem 0 0;
+  width: 100%;
+  background-color: var(--color-deepblue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+#pointroulettegame_titlebox div,
+#bonusroulettegame_titlebox div {
+  font-size: var(--fontsize_xs);
+  display: flex;
+  min-width: 5%;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+#pointroulettegame_titlebox h1,
+#bonusroulettegame_titlebox h1 {
+  font-size: var(--fontsize_s);
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+#pointroulettegame_start_container,
+#bonusroulettegame_start_container {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
+  position: relative;
+}
+#pointroulettegame_start_announcement,
+#bonusroulettegame_start_announcement {
+  background-color: var(--color-deepblue);
+  width: 80%;
+  height: 50%;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#pointroulettegame_start_announcement p,
+#bonusroulettegame_start_announcement p {
+  font-size: var(--fontsize_s);
+  color: white;
+}
+#pointroulettegame_start_btn,
+#bonusroulettegame_start_btn,
+#pointroulettegame_btn_start,
+#bonusroulettegame_btn_start {
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
+  color: white;
+  width: 6.25rem;
+  height: 1.875rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0.0625rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  font-weight: 500;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+#pointroulettegame_start_btn:hover,
+#bonusroulettegame_start_btn:hover,
+#pointroulettegame_btn_start:hover,
+#bonusroulettegame_btn_start:hover {
+  background-color: white;
+  color: var(--color-deepblue);
+}
+#pointroulettegame_contentbox,
+#bonusroulettegame_contentbox {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: white;
+}
+#pointroulettegame_background,
+#bonusroulettegame_background {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: 0 0 0.5rem 0.5rem;
+  border: 0.125rem solid var(--color-deepblue);
+  position: relative;
+}
+#pointroulettegame_roulette,
+#bonusroulettegame_roulette {
+  width: 31.25rem;
+  height: 31.25rem;
+  background: url(../img/pointroulett.png);
+  background-size: 100%;
+  transition-timing-function: ease-in-out;
+  transition: 2s;
+}
+#pointroulettegame_arrow,
+#bonusroulettegame_arrow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 1px;
+  border-right: 10px solid transparent;
+  border-left: 10px solid transparent;
+  border-top: 40px solid var(--color-point);
+  border-bottom: 0px solid transparent;
+}
+/* 베팅 게임 */
+.bettinggame_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 50rem;
+  margin-bottom: 1rem;
+}
+.bettinggame_titlebox {
+  width: 100%;
+  background-color: var(--color-deepblue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25rem 0;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+.bettinggame_titlebox h1 {
+  font-size: var(--fontsize_s);
+  width: 100%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bettinggame_contentbox {
+  background-color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0 0 0.5rem 0.5rem;
+  border: 0.125rem solid var(--color-deepblue);
+}
+.bettinggame_addgame_container {
+  width: 99%;
+  height: 10rem;
+  border: 0.25rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: var(--color-deepblue);
+  margin: 0.25rem 0;
+}
+.bettinggame_addgame_container input {
+  font-size: var(--fontsize_s);
+  font-weight: 500;
+  width: 80%;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  margin: 0.25rem 0;
+}
+.bettinggame_addgame_container input::placeholder {
+  font-size: var(--fontsize_s);
+  font-weight: 500;
+}
+.bettinggame_btn_addgame {
+  font-size: var(--fontsize_s);
+  background-color: var(--color-deepblue);
+  width: 6.25rem;
+  height: 1.875rem;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.bettinggame_btn_addgame:hover {
+  background-color: white;
+  color: var(--color-deepblue);
+}
+.bettinggame_item {
+  margin: 0.25rem 0;
+  width: 99%;
+  min-height: 9.375rem;
+  display: flex;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bettinggame_item_yes {
+  width: 20%;
+  height: 95%;
+  border-radius: 0.5rem;
+  background-color: var(--color-deepblue);
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+.bettinggame_item_yes_title {
+  font-size: var(--fontsize_s);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0;
+}
+.bettinggame_item_yes_content {
+  display: flex;
+  flex-wrap: wrap;
+}
+.bettinggame_item_yes_content p {
+  font-size: var(--fontsize_xs);
+  color: white;
+  margin: 0.25rem;
+}
+.bettinggame_item_no {
+  width: 20%;
+  height: 95%;
+  border-radius: 0.5rem;
+  background-color: var(--color-point);
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+.bettinggame_item_no_title {
+  font-size: var(--fontsize_s);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 0.5rem;
+  padding: 0.25rem 0;
+}
+.bettinggame_item_no_content {
+  display: flex;
+  flex-wrap: wrap;
+}
+.bettinggame_item_no_content p {
+  font-size: var(--fontsize_xs);
+  color: white;
+  margin: 0.25rem;
+}
+.bettinggame_item_title_container {
+  height: 100%;
+  width: 59%;
+  display: flex;
+  flex-direction: column;
+}
+.bettinggame_item_row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20%;
+}
+.bettinggame_item_row:nth-child(3) {
+  justify-content: space-between;
+}
+.bettinggame_item_title {
+  font-size: var(--fontsize_basic);
+  width: 100%;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}
+.bettinggame_item_author {
+  font-size: var(--fontsize_xs);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.25rem;
+}
+.bettinggame_item_point {
+  font-size: var(--fontsize_xs);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.25rem;
+}
+.bettinggame_btn_done_yes {
+  font-size: var(--fontsize_s);
+  font-weight: 500;
+  margin: 0.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+.bettinggame_btn_done_yes:hover {
+  color: var(--color-skyblue);
+}
+.bettinggame_btn_done_no {
+  font-size: var(--fontsize_s);
+  font-weight: 500;
+  margin: 0.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+.bettinggame_btn_done_no:hover {
+  color: var(--color-skyblue);
+}
+.bettinggame_btn_delete {
+  font-size: var(--fontsize_s);
+  font-weight: 500;
+  margin: 0.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+.bettinggame_btn_delete:hover {
+  color: var(--color-skyblue);
+}
+.bettinggame_btn_lock {
+  font-size: var(--fontsize_s);
+  font-weight: 500;
+  margin: 0.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: ease-in-out 0.3s;
+}
+.bettinggame_btn_lock:hover {
+  color: var(--color-skyblue);
+}
+
 .point_section {
   width: 20%;
   height: 100%;
@@ -665,20 +1048,21 @@ main {
   flex-direction: column;
   position: fixed;
   right: 0;
-  top: 7%;
+  top: 6%;
 }
 .myinfo_container {
   display: flex;
-  width: 250px;
+  width: 15.625rem;
   flex-direction: column;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 .myinfo_title {
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-size: var(--fontsize_s);
+  padding: 0.125rem 0;
   width: 100%;
   color: white;
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   display: flex;
   text-align: center;
   justify-content: center;
@@ -686,25 +1070,29 @@ main {
 .myinfo_contnet {
   width: 100%;
   background-color: white;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 .myinfo_row {
   width: 100%;
   display: flex;
-  border-bottom: 1px solid var(--color_dark);
+  border-bottom: 0.0625rem solid var(--color-deepblue);
 }
 .myinfo_row:last-child {
   border: none;
 }
 .myinfo_row_title {
-  width: 30%;
-  height: 30px;
+  font-size: var(--fontsize_s);
+  width: 50%;
+  height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .myinfo_row_content {
-  width: 70%;
-  height: 30px;
+  font-size: var(--fontsize_s);
+  width: 50%;
+  height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -713,13 +1101,15 @@ main {
 .point_ranking_container {
   display: flex;
   flex-direction: column;
-  border: 2px solid var(--color_dark);
-  border-radius: 5px;
-  width: 250px;
+  width: 15.625rem;
+  margin-bottom: 1rem;
 }
 .point_ranking_title {
+  font-size: var(--fontsize_s);
+  padding: 0.125rem 0;
+  border-radius: 0.5rem 0.5rem 0 0;
   color: white;
-  background-color: var(--color_dark);
+  background-color: var(--color-deepblue);
   display: flex;
   text-align: center;
   justify-content: center;
@@ -728,38 +1118,58 @@ main {
 .point_ranking_contnet {
   background-color: white;
   width: 100%;
+  height: 20rem;
+  overflow: auto;
+  border: 0.125rem solid var(--color-deepblue);
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+.point_ranking_contnet::-webkit-scrollbar {
+  display: none;
 }
 .point_ranking_row {
   width: 100%;
   display: flex;
-  border-bottom: 1px solid var(--color_dark);
+  align-items: center;
+  border-bottom: 0.0625rem solid var(--color-deepblue);
 }
 .point_ranking_row:last-child {
   border: none;
 }
 .point_ranking_row_rank {
+  font-size: var(--fontsize_s);
   width: 10%;
-  height: 30px;
+  height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .point_ranking_row_nickname {
+  font-size: var(--fontsize_s);
   width: 40%;
-  height: 30px;
+  height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .point_ranking_row_point {
+  font-size: var(--fontsize_s);
   width: 50%;
-  height: 30px;
+  height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 /*현재 위치의 메뉴 색 바꾸기*/
-#header_list_container li:nth-child(6) a {
-  background-color: var(--color_deep_dark);
+#header_list_container li:nth-child(5) a {
+  color: var(--color-skyblue);
+}
+@media (max-width: 1330px) {
+  .ad_section,
+  .point_section {
+    display: none;
+  }
+  .content_section {
+    width: 99%;
+  }
 }

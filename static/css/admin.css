@@ -1,0 +1,100 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#announcement_container,
+#patchnote_container,
+#questions_container,
+#status_conatiner,
+#syslog_container {
+  width: 1024px;
+  margin: 0.5rem;
+}
+#announcement_title,
+#patchnote_title,
+#questions_title,
+#status_title,
+#syslog_title {
+  width: 100%;
+  border-radius: 0.5rem 0.5rem 0 0;
+  background-color: var(--color-deepgray);
+  color: white;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#announcement_content,
+#patchnote_content,
+#questions_content,
+#status_content,
+#syslog_content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: 0.125rem solid var(--color-deepgray);
+  border-radius: 0 0 0.5rem 0.5rem;
+  padding: 0.5rem 0.5rem 4rem 0.5rem;
+  position: relative;
+}
+#announcement_textarea,
+#patchnote_textarea {
+  width: 90%;
+  padding: 0.5rem;
+  border: 0.0625rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
+  resize: none;
+}
+#btn_update_announcement,
+#btn_insert_patchnote,
+#btn_delete_questions,
+#btn_delete_syslog {
+  width: 10%;
+  padding: 0.5rem;
+  border: 0.0625rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-deepgray);
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+#btn_update_announcement:hover,
+#btn_insert_patchnote:hover,
+#btn_delete_questions:hover {
+  background-color: white;
+  color: var(--color-deepgray);
+}
+.questions_item {
+  width: 99%;
+  border: 0.0625rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
+  margin: 0.25rem 0;
+}
+.questions_item_comment {
+  font-size: var(--fontsize_xs);
+  display: flex;
+  justify-content: space-between;
+}
+.status_item {
+  width: 99%;
+  border: 0.0625rem solid var(--color-deepgray);
+  border-radius: 0.5rem;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#syslog_content p {
+  font-size: var(--fontsize_xs);
+}
