@@ -2,7 +2,31 @@ $(document).ready(function () {
   printPointRanking();
   printGameCount();
   printBettingGame();
+  checkPremium();
 });
+
+// 프리미엄 길드 체크, 프리미엄길드 광고 넣어주기
+function checkPremium() {
+  $.ajax({
+    type: "GET",
+    url: "/minigames/api_checkpremium/",
+    dataType: "json",
+    data: {},
+    success: function (response) {
+      if (response["result"] == "SUCCESS") {
+        try {
+          const tempHtml = `<div class="advertising advertising1">
+        <img src="../static/img/minigame_ad_1_${response["guildname"]}.png" alt="" />
+      </div>
+      <div class="advertising advertising2">
+        <img src="../static/img/minigame_ad_2_${response["guildname"]}.png" alt="" />
+      </div>`;
+          $(".ad_section").append(tempHtml);
+        } catch {}
+      }
+    },
+  });
+}
 
 //포인트 랭킹 가져와서 출력해주기, 내 포인트 출력, -10만 포인트 보다 작으면 출입금지
 function printPointRanking() {
@@ -795,7 +819,7 @@ $(document).on("click", ".abilitystonegame_btn_done", function () {
 const findninavegameRandomNumber = Math.floor(Math.random() * 5) + 1;
 
 $(".findninavegame_start_btn").click(function () {
-  let decreasePoint = 5000;
+  let decreasePoint = 4500;
   decreasePoints(decreasePoint, "findninavegamecount", 99);
   $(".findninavegame_start_container").hide();
   let tempHtml = `<div class="findninavegame_contentbox">
@@ -986,7 +1010,7 @@ $(document).on("click", ".papunikafishinggame_btn_done", function () {
 
 // 포인트 룰렛 게임 시작
 $("#pointroulettegame_start_btn").click(function () {
-  let decreasePoint = 5000;
+  let decreasePoint = 4500;
   decreasePoints(decreasePoint, "pointroulettegamecount", 99);
   $("#pointroulettegame_start_container").hide();
   const tempHtml = `<div id="pointroulettegame_contentbox">

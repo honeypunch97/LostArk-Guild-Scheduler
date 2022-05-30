@@ -303,6 +303,7 @@ def api_create_guild():
             'name': guild_name_receive,
             'pw': guild_pw_receive,
             'schcount': 0,
+            "premium" : "false",
         }
         db.guild.insert_one(doc)
         
@@ -1216,6 +1217,16 @@ def print_minigames():
     except jwt.ExpiredSignatureError:
         return redirect("/")
 
+# 미니게임 페이지, 프리미엄길드 광고 넣어주기
+@app.route("/minigames/api_checkpremium/", methods=['GET'])
+def api_minigames_checkpremium():
+    payload = find_payload()
+    ispremium = db.guild.find_one({'name':payload['guild']})['premium']
+    if ispremium == 'true':
+        return jsonify({'result': 'SUCCESS', 
+                        'guildname': payload['guild']})
+    else:
+        return jsonify({'result': 'FAIL'})
 
 # 미니게임 페이지, 내 포인트, 포인트 랭킹 불러오기
 @app.route("/minigames/api_printpointranking/", methods=['GET'])
