@@ -829,7 +829,6 @@ $(".findninavegame_start_btn").click(function () {
                     <img id="findninavegame_card3" class="findninavegame_card" src="../static/img/findninavegame_backofcard.png" alt="">
                     <img id="findninavegame_card4" class="findninavegame_card" src="../static/img/findninavegame_backofcard.png" alt="">
                     <img id="findninavegame_card5" class="findninavegame_card" src="../static/img/findninavegame_backofcard.png" alt="">
-                    <div class="findninavegame_btn_done">완료</div>
                   </div>
                 </div>`;
   $(".findninavegame_container").append(tempHtml);
@@ -848,6 +847,8 @@ $(document).on("click", ".findninavegame_card", function (event) {
     "../static/img/findninavegame_ninave.png"
   );
   selectedCard = $(event.currentTarget).attr("id");
+  const tempHtml = `<div class="findninavegame_btn_done">완료</div>`;
+  $(".findninavegame_background").append(tempHtml);
 });
 // 니나브 찾기 게임 완료 버튼 클릭
 $(document).on("click", ".findninavegame_btn_done", function () {
