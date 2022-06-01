@@ -728,3 +728,23 @@ body {
   border-color: var(--color-skyblue);
   color: var(--color-skyblue);
 }
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 14px;
+  }
+  .sub_section {
+    display: none;
+  }
+  #main_section {
+    width: 100%;
+    min-width: 100%;
+  }
+  .item_ad {
+    display: none;
+  }
+  .item_logo {
+    grid-column: 1/5;
+    grid-row: 1/4;
+  }
+}
